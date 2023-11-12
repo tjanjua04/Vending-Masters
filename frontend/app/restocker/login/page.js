@@ -21,13 +21,23 @@ const Page = () => {
             }
         }
         const {data}=await axios.post(
+<<<<<<< Updated upstream
             'http://127.0.0.1:5003/restocker/login', 
             { username,password }, 
             config
             )
         console.log(data)
         
+=======
+            'http://127.0.0.1:5000/restocker/login',
+            { username,password },
+            config
+            )
+        console.log(data)
+
+>>>>>>> Stashed changes
     }
+
     useEffect(() => {
         if (user) {
             if (user.isAuth) router.push('/restocker')

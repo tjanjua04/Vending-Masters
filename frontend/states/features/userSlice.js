@@ -23,15 +23,12 @@ export const auth = createSlice({
                         'Content-Type': 'application/json'
                     }
                 }
-                // await axios.post('http://127.0.0.1:5000/restocker/login', { username: action.payload.username, password: action.payload.password }, config)
+                const {data} = await axios.post('http://127.0.0.1:5000/restocker/login', { username: action.payload.username, password: action.payload.password }, config)
                 return {
                     value: {
-                        isAuth: true,
-                        id: '1',
-                        username: action.payload.username
+                       data
                     }
                 }
-
             } catch (error) {
                 console.log(error)
                 return {
