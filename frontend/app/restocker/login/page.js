@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { login } from '@/states/features/userSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 const Page = () => {
     const [username, setUsername] = useState('')
@@ -12,8 +13,20 @@ const Page = () => {
     const user = useSelector(state => state.user.value)
     const router = useRouter()
 
-    const handleSubmit = () => {
-        dispatch(login({ username, password }))
+    const handleSubmit = async() => {
+        // dispatch(login({ username, password }))
+        const config = {
+            header: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const {data}=await axios.post(
+            'http://127.0.0.1:5003/restocker/login', 
+            { username,password }, 
+            config
+            )
+        console.log(data)
+        
     }
     useEffect(() => {
         if (user) {
