@@ -29,14 +29,12 @@ export const auth = createSlice({
                     config
                     )
                 console.log(data)
+
                 return {
                     value: {
-                        isAuth: true,
-                        id: '1',
-                        username: action.payload.username
+                       data
                     }
                 }
-
             } catch (error) {
                 console.log(error)
                 return {
