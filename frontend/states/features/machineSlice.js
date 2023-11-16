@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: {
-        machineIds:[],
-        activeMachine:{},
-        error: null
-    }
+    machineIds: [],
+    activeMachine: {},
+    error: null
+
 }
 export const machine = createSlice({
     name: "machine",
@@ -13,47 +12,47 @@ export const machine = createSlice({
     reducers: {
 
         getIds: async (state, action) => {
-            
+
             try {
                 const config = {
                     header: {
                         'Content-Type': 'application/json'
                     }
                 }
-                const { data } = await axios.get('http://localhost:5000/', { }, config)
+                const { data } = await axios.get('http://localhost:5000/', {}, config)
                 console.log(data)
                 return {
                     ...state,
-                    machineIds:[1,2,3]
+                    machineIds: [1, 2, 3]
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error)
-                return{
-                    value: {...initialState,error:true}
+                return {
+                    value: { ...initialState, error: true }
                 }
             }
-            
+
         },
-        getMachine:  async (state, action) => {
+        getMachine: async (state, action) => {
             try {
                 const config = {
                     header: {
                         'Content-Type': 'application/json'
                     }
                 }
-                const { data } = await axios.post('http://localhost:5000/restocker/login', action.payload , config)
+                const { data } = await axios.post('http://localhost:5000/restocker/login', action.payload, config)
                 return {
                     value: {
                         ...state,
-                        machine:{}
+                        machine: {}
                     }
                 }
-            }catch(error){
-                return{
-                    value: {...initialState,error:true}
+            } catch (error) {
+                return {
+                    value: { ...initialState, error: true }
                 }
             }
-            
+
         }
 
     }

@@ -2,8 +2,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from '@/states/features/userSlice'
 import { useRouter } from "next/navigation";
+import { logout } from "@/states/actions/userActions";
 const machine_dict = {
     1: {
         id: 1,
@@ -252,7 +252,7 @@ const Page = () => {
     const [machineIds, setMachineIds] = useState([]);
     const [instructionOpen, setInstructionOpen] = useState(false);
     const [Instruction, setInstruction] = useState();
-    const user = useSelector(state => state.user.value)
+    const user = useSelector(state => state.user)
     const router = useRouter()
     const dispatch = useDispatch()
     const fetchIds = async () => {
@@ -272,7 +272,6 @@ const Page = () => {
     }, []);
     useEffect(() => {
         if (!user.isAuth) router.push('/restocker/login')
-
     }, [user])
     if (instructionOpen)
         return (
