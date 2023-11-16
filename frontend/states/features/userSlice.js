@@ -26,10 +26,10 @@ export const auth = createSlice({
             }
         },
         loginError: (state, action) => {
-            console.log("ERROR OCCURED")
+            console.log(action.payload.response)
             return ({
                 ...initialState,
-                error: true
+                error: action.payload.response.data.msg||"ERROR"
             })
         }
 
