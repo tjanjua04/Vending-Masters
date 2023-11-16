@@ -14,7 +14,8 @@ const Page = () => {
     const router = useRouter()
 
     const handleSubmit = async() => {
-        // dispatch(login({ username, password }))
+        dispatch(login({ username, password }))
+        return
         const config = {
             header: {
                 'Content-Type': 'application/json'

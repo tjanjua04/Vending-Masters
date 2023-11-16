@@ -50,6 +50,19 @@ export const login = (email, password) => async (dispatch) => {
         });
     }
 };
+
+export const login2 = (email, password) => async (dispatch) => {
+    try {
+        const { data } = await axios.post(
+            'http://127.0.0.1:5003/restocker/login',
+            { username, password },
+            config
+        )
+        // dispatch(logi)
+    } catch (error) {
+        console.log(error)
+    }
+}
 export const logout = () => async (dispatch) => {
     try {
         localStorage.removeItem("UserInfo");

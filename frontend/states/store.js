@@ -5,5 +5,7 @@ export const store = configureStore({
   reducer: {
     user:authReducer
   },
-  // middleware:[thunk]
+  middleware:[thunk]
 })
+
+
