@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={theme} >
 
       <body className={inter.className}>
-          <div className='text-black dark:text-white bg-gray-100 dark:bg-black min-h-screen h-auto overflow-scroll '>
+          <div className='text-black dark:text-white bg-gray-200 dark:bg-black min-h-screen h-auto overflow-scroll '>
             <div className='fixed top-0'>
               <button onClick={() => changeTheme()} className='opacity-5'>__</button>
             </div>

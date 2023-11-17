@@ -1,8 +1,3 @@
-"use client";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
 const machine_dict = {
     1: {
         id: 1,
@@ -12,14 +7,25 @@ const machine_dict = {
                 stock: 8,
                 price: 3,
                 id: 1,
-                icon: "/icons/chips-1.png",
+                icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+
+                }
             },
             {
                 name: "Ruffles",
                 stock: 0,
                 price: 1.5,
                 id: 2,
-                icon: "/icons/chips-2.png",
+                icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Sneakers",
@@ -27,6 +33,11 @@ const machine_dict = {
                 price: 2.29,
                 id: 3,
                 icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Pop-Tarts",
@@ -34,6 +45,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 4,
                 icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "SunChips",
@@ -41,6 +57,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 5,
                 icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Granola Bars",
@@ -48,6 +69,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 6,
                 icon: "/icons/chips-3.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Cookies",
@@ -55,6 +81,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 7,
                 icon: "/icons/energy-bar.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Cheetos",
@@ -62,6 +93,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 8,
                 icon: "/icons/energy-bar.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
             {
                 name: "Ruffles",
@@ -69,6 +105,11 @@ const machine_dict = {
                 price: 1.29,
                 id: 9,
                 icon: "/icons/energy-bar.png",
+                expirations:{
+                    "01-01-2023":3,
+                    "02-02-2023":3,
+                    "03-03-2023":4
+                }
             },
         ],
         theme: {
@@ -97,11 +138,11 @@ const machine_dict = {
                 icon: "/icons/energy-drink.png",
             },
             {
-                name: "Monster",
+                name: "Egg",
                 stock: 7,
-                price: 1.29,
+                price: 6.50,
                 id: 12,
-                icon: "/icons/energy-drink.png",
+                icon: "/icons/egg.png",
             },
             {
                 name: "Water",
@@ -155,87 +196,87 @@ const machine_dict = {
         items: [
             {
                 name: "Chips Ahoy",
-                stock: 2,
+                stock: 7,
                 price: 2.49,
                 id: 13,
-                icon: "/icons/cookies.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Pepsi",
                 stock: 15,
                 price: 1.99,
                 id: 14,
-                icon: "/icons/soda.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Oatmeal",
                 stock: 4,
                 price: 3.49,
                 id: 15,
-                icon: "/icons/oatmeal.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Yogurt",
                 stock: 10,
                 price: 1.79,
                 id: 16,
-                icon: "/icons/yogurt.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Oranges",
-                stock: 0,
+                stock: 20,
                 price: 0.79,
                 id: 17,
-                icon: "/icons/fruit.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Cereal",
-                stock: 0,
+                stock: 6,
                 price: 2.99,
                 id: 18,
-                icon: "/icons/cereal.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Bottled Water",
                 stock: 18,
                 price: 0.99,
                 id: 19,
-                icon: "/icons/water.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Frozen Pizza",
                 stock: 3,
                 price: 4.99,
                 id: 20,
-                icon: "/icons/pizza.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Ice Cream",
                 stock: 8,
                 price: 3.49,
                 id: 21,
-                icon: "/icons/ice-cream.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Cucumbers",
                 stock: 10,
                 price: 0.99,
                 id: 22,
-                icon: "/icons/vegetables.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Soda",
                 stock: 12,
                 price: 1.49,
                 id: 23,
-                icon: "/icons/soda.png",
+                icon: "/icons/energy-bar.png",
             },
             {
                 name: "Eggs",
                 stock: 14,
                 price: 2.29,
                 id: 24,
-                icon: "/icons/eggs.png",
+                icon: "/icons/energy-bar.png",
             },
         ],
         theme: {
@@ -247,111 +288,4 @@ const machine_dict = {
         },
     },
 };
-const Page = () => {
-    const [machineIds, setMachineIds] = useState([]);
-    const [instructionOpen, setInstructionOpen] = useState(false);
-    const [Instruction, setInstruction] = useState();
-    const user = useSelector(state => state.user)
-    const router = useRouter()
-    const fetchIds = async () => {
-        try {
-            setMachineIds(Object.keys(machine_dict));
-            return;
-            const data = await fetch("http://localhost:5001/machine").then((res) =>
-                res.json()
-            );
-            setMachineIds(data);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
-    useEffect(() => {
-        fetchIds();
-    }, []);
-    useEffect(() => {
-        if (!user.isAuth) router.push('/restocker/login')
-    }, [user])
-    if (instructionOpen) {
-        return( 
-        <>
-            <InstructionPage setInstructionOpen={setInstructionOpen}/>
-        </>)
-    }
-    return (
-
-
-        <div className="flex flex-col justify-start mx-auto max-w-7xl p-6 w-full">
-            <button
-                className="p-4 text-xl border-[1px] border-black w-auto md:w-[30%]"
-                onClick={() => setInstructionOpen(true)}
-            >
-                View Your Instruction
-            </button>
-            <h1 className="text-2xl my-4">All Inventory</h1>
-            <div className="flex flex-col w-full ">
-                {machineIds.map((value, index) => (
-                    <div key={index} className="p-2 w-full ">
-                        <Link
-                            href={`/restocker/${value}`}
-                            className="block hover:bg-blue-300 p-3 rounded-sm border-black border-[1px] bg-gray-200 "
-                        >
-                            <span className="text-xl font-semibold">
-                                Machine 0{value}
-                            </span>
-                            {/* 
-                                <span className="pl-4 text-red-600 font-semibold">
-                                    Empty slots: 3
-                                </span>
-                                <span className="pl-4 text-orange-400 font-semibold">
-                                    Low in stock slots: 3
-                                </span>
-                                <span className="pl-4 text-blue-500 font-semibold">
-                                    Expired Items: {value + 2}
-                                </span> */}
-                        </Link>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-export default Page;
-
-
-const InstructionPage = ({setInstructionOpen}) => {
-    return (
-        <div className="flex flex-col justify-start mx-auto max-w-7xl p-6 w-full">
-
-            <button
-                className="p-4 border-[1px] border-black place-self-end"
-                onClick={() => setInstructionOpen(false)}
-            >
-                CLOSE
-            </button>
-            <div>
-                <h1 className="text-xl mb-2">Assigned Inventory To Restock</h1>
-                <div className="p-2 w-full bg-blue-300">
-                        <Link
-                            href={`/restocker/1}`}
-                            className="block hover:bg-blue-300 p-3 rounded-sm border-black border-[1px] bg-gray-200 "
-                        >
-                            <span className="text-xl font-semibold">
-                                Machine 0{1}
-                            </span>
-                            {/* 
-                                <span className="pl-4 text-red-600 font-semibold">
-                                    Empty slots: 3
-                                </span>
-                                <span className="pl-4 text-orange-400 font-semibold">
-                                    Low in stock slots: 3
-                                </span>
-                                <span className="pl-4 text-blue-500 font-semibold">
-                                    Expired Items: {value + 2}
-                                </span> */}
-                        </Link>
-                    </div>
-            </div>
-        </div>
-    )
-}
+export default machine_dict

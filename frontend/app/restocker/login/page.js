@@ -27,7 +27,7 @@ const Page = () => {
     }, [user])
 
     return (
-        <div className="bg-gray-200 dark:bg-black flex flex-col items-center justify-center mx-auto h-screen ">
+        <div className="bg-gray-200 dark:bg-black flex flex-col items-center justify-center mx-auto grow w-full ">
             <div className='flex flex-col w-full sm:w-1/2 lg:w-1/3 max-w-5xl'>
                 <h1 className="text-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                     {/* <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/> */}
