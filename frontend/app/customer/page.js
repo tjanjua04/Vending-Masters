@@ -243,14 +243,15 @@ const machine_dict = {
     },
   },
 };
-
+import { RiArrowLeftLine } from "react-icons/ri";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTransition, animated } from "@react-spring/web";
 import { ImSpinner8 } from "react-icons/im";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { BsFillGridFill } from "react-icons/bs";
-import {BiSolidDownArrow,BiSolidUpArrow} from "react-icons/bi"
+import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi"
+import { useRouter } from 'next/navigation'
 const Page = () => {
   const [selectedMachine, setSelectedMachine] = useState();
   const [machineIds, setMachineIds] = useState();
@@ -259,6 +260,7 @@ const Page = () => {
   const [selected, setSelected] = useState({});
   const [windowOpen, setWindowOpen] = useState(false);
   const [basis, setBasis] = useState(1);
+  const router = useRouter()
   const fetchMachineIds = async () => {
     try {
       setMachineIds(Object.keys(machine_dict));
@@ -319,8 +321,11 @@ const Page = () => {
         itemKey={selected}
         handleSelect={handleSelect}
       />
-      <div className="py-5 mb-4 bg-gray-600 text-white">
-        <h1 className=" text-3xl flex max-w-full md:max-w-[50vw] mx-auto ">
+      <div className="py-5 mb-4 bg-gray-600 text-white flex items-center">
+        <button onClick={()=>router.back()}>
+        <RiArrowLeftLine  className="text-2xl mx-3"/>
+        </button>
+        <h1 className=" text-3xl flex ml-1">
           Transaction Simulator
         </h1>
       </div>
@@ -372,7 +377,7 @@ const Page = () => {
 };
 
 // DIVIDER ITEM
-const Item = ({ basis, item, handleSelect, selected,index }) => {
+const Item = ({ basis, item, handleSelect, selected, index }) => {
   return (
     <div
       className="p-2 shrink-0 grow"
@@ -411,27 +416,27 @@ const Item = ({ basis, item, handleSelect, selected,index }) => {
 };
 
 // DIVIDER
-const OrderWindow = ({ setWindowOpen, open, itemKey, selectedMachine,handleSelect }) => {
+const OrderWindow = ({ setWindowOpen, open, itemKey, selectedMachine, handleSelect }) => {
   const [payMethod, setPayMethod] = useState("cash");
-  const [item,setItem] = useState({})
+  const [item, setItem] = useState({})
   const handleClose = () => {
     setWindowOpen(false);
   };
   const handleChangeItem = (move) => {
-    handleSelect(Math.abs(itemKey+move+selectedMachine.items.length)%selectedMachine.items.length)
+    handleSelect(Math.abs(itemKey + move + selectedMachine.items.length) % selectedMachine.items.length)
   };
   const divStyle = {
     display: open ? "flex" : "none",
   };
-  useEffect(()=>{
-    if(!selectedMachine)return
+  useEffect(() => {
+    if (!selectedMachine) return
     setItem(selectedMachine.items[itemKey])
-  },[itemKey,selectedMachine])
+  }, [itemKey, selectedMachine])
   // useEffect(()=>{
   //   console.log("CHANGED")
   //   console.log(item)
   // },[item])
-  if(!item)return<></>
+  if (!item) return <></>
   return (
     <>
       <div
@@ -446,7 +451,7 @@ const OrderWindow = ({ setWindowOpen, open, itemKey, selectedMachine,handleSelec
           {/* ITEM DIVIDER CONTAINER */}
           <div className="basis-1/3 grow relative bg-white rounded-lg flex items-center flex-col  justify-center">
             <span className="top-0 -translate-y-full text-white text-lg left-0 absolute font-semibold">Your Order</span>
-            <button className="text-3xl hidden md:block" onClick={()=>handleChangeItem(1)}><BiSolidUpArrow/></button>
+            <button className="text-3xl hidden md:block" onClick={() => handleChangeItem(1)}><BiSolidUpArrow /></button>
             <div className="py-4 flex flex-col items-center justify-center ">
               <div className="">
                 <Image
@@ -466,7 +471,7 @@ const OrderWindow = ({ setWindowOpen, open, itemKey, selectedMachine,handleSelec
               </div>
               <span className="text-md">${Number(item.price).toFixed(2)}</span>
             </div>
-            <button className="text-3xl hidden md:block" onClick={()=>handleChangeItem(-1)}><BiSolidDownArrow/></button>
+            <button className="text-3xl hidden md:block" onClick={() => handleChangeItem(-1)}><BiSolidDownArrow /></button>
           </div>
 
           {/* PAYMENT DIVIDER CONTAINER */}
@@ -555,8 +560,8 @@ const PayWindow = ({ setPayMethod, item, payMethod, open }) => {
     setReceipt({
       item: { ...item },
       machineId: 1,
-      payMethod:payMethod,
-      date:x.toLocaleString()
+      payMethod: payMethod,
+      date: x.toLocaleString()
     });
   };
   useEffect(() => {
@@ -591,10 +596,9 @@ const PayWindow = ({ setPayMethod, item, payMethod, open }) => {
     }
   }, [open]);
   // DIVIDER RECEIPT IF THERE IS
-  if (receiptOpen&&receipt)
-    {
-      console.log(receipt)
-      return (
+  if (receiptOpen && receipt) {
+    console.log(receipt)
+    return (
       <div className="flex justify-center flex-col w-full">
         <span className="text-lg font-semibold text-center">Transaction Data</span>
         <div className="flex">
@@ -624,7 +628,8 @@ const PayWindow = ({ setPayMethod, item, payMethod, open }) => {
 
         <button className="p-1 rounded-sm bg-red-100" onClick={() => setReceiptOpen(false)}>Close</button>
       </div>
-    );}
+    );
+  }
   // DIVIDER PROCESSING TRANSACTION WINDOW
   if (transaction)
     return (
