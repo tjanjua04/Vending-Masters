@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import machine_dict from "@/app/mockData";
 const initialState = {
-    ids: Object.keys(machine_dict),
-    focusedInventory: machine_dict[1],
+    topVm:[],
+    topItem:[],
     error: null
 
 }
-export const inventory = createSlice({
-    name: "inventory",
+export const management = createSlice({
+    name: "management",
     initialState,
 
     reducers: {
@@ -37,7 +37,7 @@ export const inventory = createSlice({
     }
 })
 
-export const { setIds, setInventory, setError, reset } = inventory.actions
-export default inventory.reducer
+export const { setIds, setInventory, setError, reset } = management.actions
+export default management.reducer
 
 

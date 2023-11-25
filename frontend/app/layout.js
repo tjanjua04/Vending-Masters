@@ -15,13 +15,12 @@ export default function RootLayout({ children }) {
   const changeTheme=()=>{
     if (theme=='dark') setTheme('light')
     else setTheme('dark')
-  console.log("FKJEOFIJE")
   }
   return (
     <html lang="en" className={theme} >
 
       <body className={inter.className}>
-          <div className='text-black dark:text-white bg-gray-200 dark:bg-black min-h-[100dvh] h-auto overflow-scroll '>
+          <div className='text-black dark:text-white  dark:bg-black min-h-[100dvh] overflow-scroll '>
             <div className='fixed top-0'>
               <button onClick={() => changeTheme()} className='opacity-5'>__</button>
             </div>

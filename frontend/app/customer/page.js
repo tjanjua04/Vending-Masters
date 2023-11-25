@@ -321,7 +321,7 @@ const Page = () => {
         itemKey={selected}
         handleSelect={handleSelect}
       />
-      <div className="py-5 mb-4 bg-gray-600 text-white flex items-center">
+      <div className="py-6 mb-4 bg-blacks-1 text-white flex items-center">
         <button onClick={()=>router.back()}>
         <RiArrowLeftLine  className="text-2xl mx-3"/>
         </button>
@@ -335,11 +335,6 @@ const Page = () => {
             <button
               key={index}
               className="p-2  border-2 aspect-square min-w-[50px]"
-              style={
-                {
-                  // backgroundColor: `${id == selectedMachine.id ? "#aaa" : "unset"}`,
-                }
-              }
               onClick={() => handleChangeMachine(id)}
             >
               {id}
@@ -387,7 +382,7 @@ const Item = ({ basis, item, handleSelect, selected, index }) => {
       }}
     >
       <button
-        className="w-full bg-gray-200 dark:bg-gray-800 border-2 rounded-sm p-2 flex flex-col items-center shrink-0   "
+        className="w-full bg-gray-200 dark:bg-gray-800 hover:bg-blacks-1 hover:text-white duration-500 border-2 rounded-sm p-2 flex flex-col items-center shrink-0   "
         style={{
           borderColor: `${item.id == selected.id ? "#aa5555" : "#333333"}`,
         }}
@@ -432,10 +427,6 @@ const OrderWindow = ({ setWindowOpen, open, itemKey, selectedMachine, handleSele
     if (!selectedMachine) return
     setItem(selectedMachine.items[itemKey])
   }, [itemKey, selectedMachine])
-  // useEffect(()=>{
-  //   console.log("CHANGED")
-  //   console.log(item)
-  // },[item])
   if (!item) return <></>
   return (
     <>

@@ -1,24 +1,30 @@
 import Image from 'next/image'
 import Link from 'next/link'
-
+const navs = [{
+  name: 'Transaction Simulator',
+  link: '/customer'
+}, {
+  name: 'Restocker',
+  link: '/restocker/login'
+}, {
+  name: 'Management',
+  link: '/management/login'
+}]
 export default function Home() {
   return (
-    <main className="flex flex-col md:flex-row justify-items-stretch min-h-[100dvh] text-black font-bold bg-gray-300 px-4">
-      <div className='p-6 grow items-center flex flex-col'>
-        <Link href='/customer' className='rounded grow p-2 w-full text-center flex items-center justify-center bg-gray-700 text-white '>
-          <span>User Interface</span>
-        </Link></div>
-      <div className='p-6 grow items-center flex flex-col'>
-        <Link href='/restocker/login' className='rounded grow p-2 text-center flex items-center justify-center bg-gray-700 text-white w-full'>
-          <span>Restocker Interface</span>
-
-        </Link>
+    <main className=" h-[100dvh] overflow-hidden bg-black w-full relative text-black  font-bold px-4 flex justify-center flex-col items-center">
+      <Image src='/home2.jpg' objectFit='cover' layout='fill' className='absolute blur-sm  scale-105'/>
+      <div className='flex flex-col '>
+        {navs.map((nav, index) => (
+          <NavButton nav={nav} />
+        ))}
       </div>
-      <div className='p-6 grow items-center flex flex-col'>
-        <Link href='/management/login' className='rounded grow p-2 text-center flex items-center justify-center bg-gray-700 text-white w-full'>
-          <span>Management Interface</span>
-        </Link>
-      </div>
+      <span className='fixed bottom-4 right-4 text-xs text-white'>Placeholder image</span>
     </main>
   )
+}
+const NavButton = ({ nav }) => {
+  return (<>
+    <Link href={nav.link} className='my-2 navButton p-4 bg-gray-800 hover:bg-gray-100 hover:text-black duration-300 text-white font-normal rounded'>{nav.name}</Link>
+  </>)
 }

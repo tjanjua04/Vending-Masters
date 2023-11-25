@@ -288,4 +288,46 @@ const machine_dict = {
         },
     },
 };
+const summary = {
+    totalRevenue:12000,
+    totalSold:9000,
+    topItems:[{
+        name:"Doritos",
+        quantity:300
+    },{
+        name:"Ruffles",
+        quantity:245
+    },{
+        name:"Coca Cola",
+        quantity:220
+    },{
+        name:"Sneakers",
+        quantity:195
+    },{
+        name:"Water",
+        quantity:166
+    },],
+    topVm:[{
+        id:1,
+        revenue:1604,
+        location:"Los Angeles, CA"
+    },{
+        id:1,
+        revenue:1250,
+        location:"Tustin, CA"
+    },{
+        id:1,
+        revenue:980,
+        location:"Fullerton, CA"
+    },{
+        id:1,
+        revenue:882,
+        location:"Riverside, CA"
+    },{
+        id:1,
+        revenue:645,
+        location:"San Bernardino, CA"
+    },]
+}
+export {summary}
 export default machine_dict
