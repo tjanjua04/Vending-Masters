@@ -7,9 +7,8 @@ from datetime import datetime
 
 
 class CustomerInventoryController(InventoryController):
-    def __init__(self, inventory: Inventory, transactions_list: TransactionsList):
-        super().__init__(inventory)
-        self.transactions_list = transactions_list
+    def __init__(self, inventories: list[Inventory]):
+        super().__init__(inventories)
 
     def handle_input(self, item_id: int):
         item = self.inventory.subtract_item(item_id)

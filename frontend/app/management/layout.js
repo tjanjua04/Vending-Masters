@@ -9,6 +9,8 @@ import { BiReceipt } from "react-icons/bi";
 import { GrVend } from "react-icons/gr";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { RiDashboardLine } from "react-icons/ri";
+import { IoMdExit } from "react-icons/io";
+import { FiBox } from "react-icons/fi";
 const navs = [{
   name: 'Summary',
   link: '/management',
@@ -16,7 +18,7 @@ const navs = [{
 }, {
   name: 'Inventory',
   link: '/management/inventory',
-  icon: <GrVend />
+  icon: <FiBox />
 }, {
   name: 'Transactions',
   link: '/management/transactions',
@@ -59,16 +61,21 @@ const Layout = ({ children }) => {
     <div className=" dark:bg-black flex min-h-[100svh]">
       <div className='basis-1/4 max-w-[350px] bg-[#DADDD7] bg-neutral-200 flex flex-col'>
         <div className='pl-8 font-bold text-3xl aspect-[3/1] flex items-center'>
-          LOGO OGOL
+          ?? LOGO ??
         </div>
         <nav className='grow'>
           <ul className='flex flex-col relative h-full px-6 '>
+            <div className='w-full bg-gray-400 min-h-[1px] mb-6'/>
             {navs.map((nav, index) => (
               <NavButton key={index} nav={nav} path ={path}/>
 
             ))}
+            <div className='w-full bg-gray-400 min-h-[1px] mt-6'/>
             {user.isAuth &&
-              <button className=' absolute bottom-0 left-0 my-2 text-black p-4  hover:bg-gray-100 hover:text-black duration-300 font-normal w-full text-left' onClick={() => dispatch(logout())}>Logout</button>
+              <button className=' absolute bottom-0 left-0 my-4 p-6 text-black text-xl items-center flex gap-2 hover:bg-gray-100 hover:text-black duration-300 font-normal w-full text-left' onClick={() => dispatch(logout())}>
+                <IoMdExit className='rotate-180 text-2xl'/>
+                Logout
+                </button>
             }
             <button className='absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 p-4 bg-gray-400 '>
               <RiArrowLeftLine onClick={() => handleBack()} className="text-2xl text-black " />

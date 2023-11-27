@@ -1,49 +1,86 @@
 import unittest
-from backend.item import Item
+from db.tabledef import ItemModel, InventoryModel, TransactionsListModel, TransactionModel, db_session, db
+from helpers.load_database_data import load_inventories_from_db
 from backend.inventory import Inventory
-from backend.transactions_list import TransactionsList
-from db.tabledef import ItemModel
-from db.tabledef import session_scope
+from backend.item import Item
+
+
+inventory1 = Inventory(5)
+inventory2 = Inventory(5)
+inventory3 = Inventory(5)
+inventory4 = Inventory(5)
+
+
+inventory1.create_item("item1", 1, "exp", 1.00)
+inventory1.create_item("item2", 2, "exp", 2.00)
+inventory2.create_item("item3", 3, "exp", 3.00)
+inventory3.create_item("item4", 4, "exp", 4.00)
+inventory4.create_item("item5", 5, "exp", 5.00)
+
+
+inventories = load_inventories_from_db()
 
 
 class TestVending(unittest.TestCase):
-    with session_scope() as s:
-        s.query(ItemModel).delete()
-        s.commit()
+    def test_get_inventory_ids(self):
+        inventory_ids = []
+        for inventory in inventories:
+            inventory_ids.append(inventory.id)
 
-    def test_inventory_add_item_then_get_name(self):
-        inventory = Inventory(5)
+        self.assertEqual([1, 2, 3], inventory_ids)
 
-        item = inventory.create_item("item1", 4, "exp", 2.00)
-        name = inventory.get_item_name(item.id)
+    def test_get_inventory_items(self):
+        inventory_id = 1
+        valid_inventory_json = {
+            1: {'id': 1, 'name': 'item1',
+                'quantity': 1, 'capacity': 1,
+                'price': 1, 'exp_date': 'exp'},
+            2: {'id': 2, 'name': 'item2',
+                'quantity': 2, 'capacity': 2,
+                'price': 2, 'exp_date': 'exp'}
+        }
 
-        self.assertEqual("item1", name)
+        target_inventory = inventories[inventory_id - 1]
 
-    def test_inventory_set_item_quantity(self):
-        inventory = Inventory(5)
-        item = inventory.create_item("item2", 5, "exp", 3.00)
-        inventory.set_item_quantity(item.id, 3)
-        quantity = inventory.get_item_quantity(item.id)
+        items_dict = target_inventory.inventory_to_json()
+        self.assertEqual(valid_inventory_json, items_dict)
 
-        self.assertEqual(3, quantity)
+    def test_update_item_quantity(self):
+        inventory_id = 2
+        item_id = 3
+        item_quantity = 1
 
-    def test_inventory_subtract_item_quantity(self):
-        inventory = Inventory(5)
-        item = inventory.create_item("item3", 5, "exp", 4.00)
-        inventory.subtract_item(item.id, 1)
-        quantity = inventory.get_item_quantity(item.id)
+        target_inventory = inventories[inventory_id - 1]
+        target_inventory.set_item_quantity(item_id, item_quantity)
+        new_quantity = target_inventory.get_item_quantity(item_id)
+        self.assertEqual(1, new_quantity)
 
-        self.assertEqual(4, quantity)
+    def test_create_item(self):
+        inventory_id = 2
+        item_name = 'item5'
+        item_capacity = 5
+        item_exp_date = 'exp'
+        item_price = 5
 
-    def test_transaction(self):
-        transactions_list = TransactionsList(1)
-        inventory = Inventory(5)
-        item = inventory.create_item("item4", 5, "exp", 5.00)
+        valid_item_json = {'id': 5, 'name': 'item5',
+                           'quantity': 5, 'capacity': 5,
+                           'price': 5, 'exp_date': 'exp'}
 
-        transactions_list.create_transaction(item.name, item.id, "time", item.price)
-        transaction = transactions_list.get_latest_transaction()
+        target_inventory = inventories[inventory_id - 1]
+        new_item = target_inventory.create_item(item_name, item_capacity, item_exp_date, item_price)
 
-        self.assertEqual(transaction.item_id, item.id)
+        self.assertEqual(valid_item_json, new_item.item_to_json())
+
+    def test_create_transaction(self):
+        inventory_id = 3
+        item_id = 4
+
+        target_inventory = inventories[inventory_id - 1]
+        item = target_inventory.get_item(item_id)
+        transaction = target_inventory.create_transaction(item.name, item.id, 'time', item.price)
+        json_transaction = transaction.transaction_to_json()
+
+        self.assertEqual({4, 'item4', 'time'}, json_transaction)
 
 
 if __name__ == '__main__':

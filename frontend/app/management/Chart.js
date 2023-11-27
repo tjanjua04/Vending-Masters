@@ -1,227 +1,203 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, ComposedChart } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, ComposedChart, BarChart, Bar } from 'recharts';
 
-const data = [
-    {
-        name: 'Page A',
-        uv: 4000,
-        pv: 2400,
-        amt: 2400,
-    },
-    {
-        name: 'Page B',
-        uv: 3000,
-        pv: 1398,
-        amt: 2210,
-    },
-    {
-        name: 'Page C',
-        uv: 2000,
-        pv: 9800,
-        amt: 2290,
-    },
-    {
-        name: 'Page D',
-        uv: 2780,
-        pv: 3908,
-        amt: 2000,
-    },
-    {
-        name: 'Page E',
-        uv: 1890,
-        pv: 4800,
-        amt: 2181,
-    },
-    {
-        name: 'Page F',
-        uv: 2390,
-        pv: 3800,
-        amt: 2500,
-    },
-    {
-        name: 'Page G',
-        uv: 3490,
-        pv: 4300,
-        amt: 2100,
-    },
-];
+
 const rangeData = [
     {
-        "day": "05-01",
-        "temperature": 0
+        "day": "05/01",
+        "revenue": 600
     },
     {
-        "day": "05-02",
-        "temperature": 1
+        "day": "05/02",
+        "revenue": 700
 
     },
     {
-        "day": "05-03",
-        "temperature": 10
+        "day": "05/03",
+        "revenue": 120
 
     },
     {
-        "day": "05-04",
-        "temperature": 2
+        "day": "05/04",
+        "revenue": 150
 
     },
     {
-        "day": "05-05",
-        "temperature": 7
+        "day": "04/08",
+        "revenue": 120
 
     },
     {
-        "day": "05-06",
-        "temperature": 3
+        "day": "04/09",
+        "revenue": 140
     },
     {
-        "day": "05-07",
-        "temperature": 2
+        "day": "04/10",
+        "revenue": 300
 
     },
     {
-        "day": "05-08",
-        "temperature": 5
+        "day": "04/11",
+        "revenue": 344
 
     },
     {
-        "day": "05-09",
-        "temperature": 8
-
-    }, {
-        "day": "05-01",
-        "temperature": 0
-    },
-    {
-        "day": "05-02",
-        "temperature": 1
-
-    },
-    {
-        "day": "05-03",
-        "temperature": 10
-
-    },
-    {
-        "day": "05-04",
-        "temperature": 2
-
-    },
-    {
-        "day": "05-05",
-        "temperature": 7
-
-    },
-    {
-        "day": "05-06",
-        "temperature": 3
-    },
-    {
-        "day": "05-07",
-        "temperature": 2
-
-    },
-    {
-        "day": "05-08",
-        "temperature": 5
-
-    },
-    {
-        "day": "05-09",
-        "temperature": 8
+        "day": "04/12",
+        "revenue": 211
 
     }, {
-        "day": "05-01",
-        "temperature": 0
+        "day": "04/13",
+        "revenue": 244
     },
     {
-        "day": "05-02",
-        "temperature": 1
+        "day": "04/14",
+        "revenue": 151
 
     },
     {
-        "day": "05-03",
-        "temperature": 10
+        "day": "04/15",
+        "revenue": 100
 
     },
     {
-        "day": "05-04",
-        "temperature": 2
+        "day": "04/16",
+        "revenue": 321
 
     },
     {
-        "day": "05-05",
-        "temperature": 7
+        "day": "04/17",
+        "revenue": 400
 
     },
     {
-        "day": "05-06",
-        "temperature": 3
+        "day": "04/18",
+        "revenue": 300
     },
     {
-        "day": "05-07",
-        "temperature": 2
+        "day": "04/19",
+        "revenue": 321
 
     },
     {
-        "day": "05-08",
-        "temperature": 5
+        "day": "04/20",
+        "revenue": 245
 
     },
     {
-        "day": "05-09",
-        "temperature": 8
+        "day": "04/21",
+        "revenue": 80
 
     }, {
-        "day": "05-01",
-        "temperature": 0
+        "day": "04/22",
+        "revenue": 138
     },
     {
-        "day": "05-02",
-        "temperature": 1
+        "day": "04/23",
+        "revenue": 100
 
     },
     {
-        "day": "05-03",
-        "temperature": 10
+        "day": "04/24",
+        "revenue": 100
 
     },
     {
-        "day": "05-04",
-        "temperature": 2
+        "day": "04/25",
+        "revenue": 200
 
     },
     {
-        "day": "05-05",
-        "temperature": 7
+        "day": "04/26",
+        "revenue": 140
 
     },
     {
-        "day": "05-06",
-        "temperature": 3
+        "day": "04/27",
+        "revenue": 100
     },
     {
-        "day": "05-07",
-        "temperature": 2
+        "day": "04/28",
+        "revenue": 140
 
     },
     {
-        "day": "05-08",
-        "temperature": 5
+        "day": "04/29",
+        "revenue": 150
 
     },
     {
-        "day": "05-09",
-        "temperature": 8
+        "day": "04/30",
+        "revenue": 210
+
+    }, {
+        "day": "04/31",
+        "revenue": 233
+    },
+    {
+        "day": "05/01",
+        "revenue": 145
+
+    },
+    {
+        "day": "05/02",
+        "revenue": 103
+
+    },
+    {
+        "day": "05/03",
+        "revenue": 677
+
+    },
+    {
+        "day": "05/04",
+        "revenue": 240
+
+    },
+    {
+        "day": "05/06",
+        "revenue": 90
+    },
+    {
+        "day": "05/07",
+        "revenue": 155
+
+    },
+    {
+        "day": "05/08",
+        "revenue": 312
+
+    },
+    {
+        "day": "05/09",
+        "revenue": 556
 
     }
 ]
 const Chart = ({ range }) => {
-    const [data, setData] = useState(rangeData.slice(-30))
+    const [data, setData] = useState(rangeData.slice(-31))
     useEffect(() => {
         setData(rangeData.slice(-1 * range))
     }, [range])
+    return (
+        <ResponsiveContainer width="100%" height="100%" >
+            <BarChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
+
+
+                <defs>
+                    <linearGradient id={'revenue'} x1="0" y1="0" x2="0" y2="1" >
+                        <stop offset="5%" stopColor={'#54A2F0'} stopOpacity={1} />
+                        <stop offset="60%" stopColor={'#000000'}  stopOpacity={.1} />
+                    </linearGradient>
+                </defs>
+                <Tooltip />
+                <XAxis tickCount={2} interval={5} dataKey='day'/>
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Bar dataKey="revenue" fill="#54A2F0" />
+            </BarChart>
+        </ResponsiveContainer>
+    )
     return (
 
 
@@ -232,7 +208,7 @@ const Chart = ({ range }) => {
                 <Tooltip />
                 <XAxis />
                 <YAxis />
-                <CartesianGrid strokeDasharray="3 3"/>
+                <CartesianGrid strokeDasharray="3 3" />
                 <defs>
                     <linearGradient id={'temp'} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor={'#54A2F0'} stopOpacity={0.5} />

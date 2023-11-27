@@ -1,7 +1,8 @@
-import itertools
-from helpers.error_handling import *
-from item import Item
-from db import tabledef
+from backend.db import tabledef
+from backend.db.tabledef import db_session
+from helpers.error_handling import ItemNotFoundException, InventoryFullException
+from backend.item import Item
+from backend.transactions_list import TransactionsList
 
 
 def handle_invalid_item(f):
@@ -14,18 +15,26 @@ def handle_invalid_item(f):
 
 
 class Inventory:
-    def __init__(self, capacity):
+    # do not put entry for id unless the id is a known inventory in the database
+    def __init__(self, capacity: int, items_dict: dict[int, Item] = None, id: int = -1):
         self.capacity = capacity
-        # initialize slots to none
-        # instantiate items dictionary
-        self.items_dict = dict[int, Item]()
 
-        with tabledef.session_scope() as s:
-            u = tabledef.InventoryModel(capacity=capacity)
-            s.add(u)
-            s.commit()
+        if items_dict is None:
+            self.items_dict = dict[int, Item]()
+        else:
+            self.items_dict = items_dict
 
-            self.id = u.inventory_id
+        # create new table entry
+        if id == -1:
+            with db_session() as s:
+                u = tabledef.InventoryModel(capacity=capacity)
+                s.add(u)
+                s.commit()
+                self.id = u.inventory_id
+        else:
+            self.id = id
+
+        self.transactions_list = TransactionsList(self.id)
 
     # mutators
     def create_item(self, name: str, capacity: int, exp_date: str, price: float):
@@ -36,6 +45,10 @@ class Inventory:
         self.items_dict[new_item.id] = new_item
 
         return new_item
+
+    def create_transaction(self, item_name: str, item_id: int, time: str, price: float):
+        transaction = self.transactions_list.create_transaction(item_name, item_id, time, price)
+        return transaction
 
     @handle_invalid_item
     def add_item(self, item_id: int, add_amount: int):
@@ -67,9 +80,13 @@ class Inventory:
             self.items_dict.pop(item_id)
         return item
 
-    # getters
-    def get_inventory_dict(self) -> dict[int, Item]:
-        return self.items_dict
+    # converts the inventory dictionary to json format
+    def inventory_to_json(self):
+        inventory_json = {'items': []}
+        for item in self.items_dict.values():
+            item_json = item.item_to_json()
+            inventory_json['items'].append(item_json)
+        return inventory_json
 
     @handle_invalid_item
     def get_item_price(self, item_id: int) -> float:
@@ -83,8 +100,17 @@ class Inventory:
     def get_item_name(self, item_id: int) -> str:
         return self.items_dict[item_id].get_name()
 
+    @handle_invalid_item
+    def get_item(self, item_id: int) -> Item:
+        return self.items_dict[item_id]
+
     def get_expired_items(self) -> list[Item]:
-        pass
+        expired = []
+        for item in self.items_dict.values():
+            if item.check_expired():
+                expired.append(item)
+        return expired
+
 
 
 

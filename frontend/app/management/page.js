@@ -6,86 +6,114 @@ import Chart from './Chart'
 import { summary } from '../mockData'
 import { TbCurrencyDollar } from "react-icons/tb";
 import { FiBox } from "react-icons/fi";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 
+const dateRanges = [{
+    name: '7D',
+    value: 7
+}, {
+    name: '14D',
+    value: 14
+}, {
+    name: '30D',
+    value: 31
+}]
 const Page = () => {
-    const [range, setRange] = useState(30)
+    const [range, setRange] = useState(31)
     return (
-        <div className='flex flex-col mx-auto gap-6 p-4 '>
+        <div className='flex flex-col mx-auto gap-6  '>
             {/* DIVIDER HEADER */}
             <div className='flex'>
                 <h1 className='font-semibold text-2xl grow'>Summary</h1>
-                <div className='p-2 border border-black'>
-                    <select value={range} onChange={(e) => setRange(e.target.value)} className='text-left'>
-                        <option value={30}>30 D</option>
-                        <option value={14}>14 D</option>
-                        <option value={7}>7 D</option>
-                        <option value={1}>1 D</option>
-                    </select>
+                <div className='border border-black flex gap-1'>
+
+                    {dateRanges.map((item, index) => (
+                        <>
+                            <RangeButton item={item} key={index} setRange={setRange} range={range} />
+                        </>))}
                 </div>
             </div>
             {/* DIVIDER BODY */}
-            <div className='flex gap-6 flex-wrap'>
-                {/* DIVIDER  */}
-                <div className='p-4 rounded-sm basis-1/3  bg-gray-100'>
-                    <div className='flex items-center gap-2 text-xl font-light mb-3'>
-                        <span className='bg-green-300 text-green-800 rounded-full aspect-square p-1'><TbCurrencyDollar /></span>
-                        <span>Total Revenue</span>
+            <div className=''>
+                {/* DIVIDER ROW 1 */}
+                <div className='flex w-full flex-wrap md:flex-nowrap'>
+                    {/* DIVIDER  */}
+                    <div className='p-4 min-w-[300px] basis-1/3 grow shrink'>
+                        <div className='p-4 rounded-sm bg-gray-100'>
+                            <div className='flex items-center gap-2 text-xl font-light mb-3'>
+                                <span className='bg-green-300 text-green-800 rounded-full aspect-square p-1'><TbCurrencyDollar /></span>
+                                <span>Total Revenue</span>
+                            </div>
+                            <div className='flex pl-6'>
+                                <span className='text-4xl font-medium'>{summary.totalRevenue.toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                    minimumFractionDigits: 0
+                                })}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className='flex pl-6'>
-                        <span className='text-4xl font-medium'>{summary.totalRevenue.toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            minimumFractionDigits: 0
-                        })}</span>
+                    {/* DIVIDER  */}
+                    <div className='p-4 min-w-[300px] basis-1/3 grow shrink'>
+                        <div className='p-4 rounded-sm h-full  bg-gray-100'>
+                            <div className='flex items-center gap-2 text-xl font-light mb-3'>
+                                <span className='bg-blue-200 text-blue-400 rounded-full aspect-square p-1'><FiBox /></span>
+                                <span>Products Sold</span>
+                            </div>
+                            <div className='flex'>
+                                <span className='text-4xl font-medium pl-6'>{summary.totalSold.toLocaleString('en-US')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {/* DIVIDER  */}
+                    <div className='p-4 min-w-[300px] basis-1/3 grow shrink'>
+                        <div className='rounded-sm h-full  bg-gray-100'>
+                        </div>
                     </div>
                 </div>
-                {/* DIVIDER  */}
-                <div className='p-4 rounded-sm basis-1/3  bg-gray-100'>
-                    <div className='flex items-center gap-2 text-xl font-light mb-3'>
-                        <span className='bg-blue-200 text-blue-400 rounded-full aspect-square p-1'><FiBox /></span>
-                        <span>Products Sold</span>
+                {/* DIVIDER  ROW 2*/}
+                <div className='flex w-full flex-wrap md:flex-nowrap '>
+                    {/* DIVIDER CHART */}
+                    <div className='basis-2/3 p-4'>
+                        <div className='aspect-[16/5] rounded-sm border-black flex flex-col bg-gray-100 gap-2'>
+                            <span className='text-2xl font-light p-4 pb-0'>Daily Revenue</span>
+                            <Chart range={range} />
+                        </div>
                     </div>
-                    <div className='flex'>
-                        <span className='text-4xl font-medium pl-6'>{summary.totalSold.toLocaleString('en-US')}</span>
+                    {/* DIVIDER TOP SELLERS */}
+                    <div className='basis-1/3 p-4'>
+                        <div className='h-full p-4 rounded-sm border-black flex flex-col bg-gray-100 '>
+                            <div className='flex gap-2 items-end mb-4'>
+                                <h1 className='text-xl font-normal'>Top Sellers</h1>
+                                <Link href='/management/transactions' className='underline text-blue-600 text-xs'>View All</Link>
+                            </div>
+                            <TopSellers items={summary.topItems} />
+                        </div>
                     </div>
-                </div>
-                {/* DIVIDER  */}
-                <div className='aspect-[16/5] rounded-sm border-black basis-2/3 shrink-0 flex flex-col bg-gray-100 gap-2'>
-                    <span className='text-xl p-4'>Revenue Growth</span>
-                    <Chart range={range} />
-                </div>
-                {/* DIVIDER TOP SELLERS */}
-                <div className='p-4 rounded-sm border-black basis-1/4 grow shrink-0 flex flex-col bg-gray-100 '>
-                    <h1 className='text-lg font-semibold'>Top Sellers</h1>
-                    <ul>
-                        {summary.topItems.map((item, index) => <TopItem key={index} item={item} />)}
-                    </ul>
                 </div>
             </div>
-            <div className='flex flex-wrap gap-4'>
-
+            <div className='flex gap-8'>
                 {/* DIVIDER TOP VENDING MACHINES */}
                 <div className='p-4 rounded-sm border-black basis-72 grow shrink-0 flex flex-col bg-gray-100 '>
-                    <h1 className='text-lg font-semibold'>Top Vending Machines</h1>
-                    <ul>
-                        {summary.topVm.map((vm, index) => <TopVm key={index} vm={vm} />)}
-                    </ul>
+                    <div className='flex items-end mb-4'>
+                        <h1 className='text-xl font-semibold grow'>Top Vending Machines</h1>
+                        <Link href='/management/transactions' className='underline text-blue-600 text-xs'>View All</Link>
+                    </div>
+
+                    <TopInventory items={summary.topVm} />
                 </div>
                 {/* DIVIDER MACHINE STATUS */}
                 <div className='p-4 rounded-sm border-black basis-72 grow shrink-0 flex flex-col bg-gray-100 '>
-                    <h1 className='text-lg font-semibold'>Status</h1>
-                    <ul>
-                        <StatusItem>Doritos</StatusItem>
-                        <StatusItem>Ruffles</StatusItem>
-                        <StatusItem>Coca Cola</StatusItem>
-                        <StatusItem>Sneakers</StatusItem>
-                        <StatusItem>Water</StatusItem>
-                    </ul>
+                    <div className='flex items-end mb-4'>
+                        <h1 className='text-xl font-semibold grow'>Status</h1>
+                        <Link href='/management/transactions' className='underline text-blue-600 text-xs'>View All</Link>
+                    </div>
+                    <StatusTable items={summary.status} />
                 </div>
             </div>
 
-            <h1>TODO</h1>
-            <ul>
+            {/* <h1>TODO</h1> */}
+            {/* <ul>
                 <li className='text'>
                     Desktop-like interface for corporate users.<br />
                     Real-time access to purchase history and inventory data.<br />
@@ -96,26 +124,112 @@ const Page = () => {
                     Heartbeat monitoring to check vending machine status and report errors.<br />
                     Aggregation of data across various levels (zip codes, states, country).<br />
                     Notified of restocking completion with notes from restockers.</li>
-            </ul>
+            </ul> */}
             {/* <button className='border w-full p-4 border-gray-700'>View All Transactions</button>
             <button className='border w-full p-4 border-gray-700'>Send Instruction to a restocker</button>
             <button className='border w-full p-4 border-gray-700'>View Statistics</button> */}
         </div>
     )
 }
-const TopItem = ({ item }) => {
+const TopSellers = ({ items }) => {
     return (
-        <li className='flex'><span className='grow'>{item.name}</span><span>{item.quantity} units</span></li>
+        <>
+            <TableContainer component={Paper} elevation={0}>
+                <Table sx={{ minWidth: 100 }} aria-label="simple table">
+                    {/* <TableHead>
+                    <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell align="right">Calories</TableCell>
+                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                    </TableRow>
+                </TableHead> */}
+                    <TableBody>
+                        {items.map((row) => (
+                            <TableRow
+                                key={row.name}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="right">{row.quantity} sold</TableCell>
+                                {/* <TableCell align="right">{row.fat}</TableCell>
+                            <TableCell align="right">{row.carbs}</TableCell>
+                            <TableCell align="right">{row.protein}</TableCell> */}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     )
 }
-const TopVm = ({ vm }) => {
+const TopInventory = ({ items }) => {
     return (
-        <li className='flex'><span>{vm.location}</span><span className='grow text-gray-400 ml-2 text-sm'>#{vm.id}</span><span>${vm.revenue}</span></li>
+        <div className='flex flex-col'>
+            {/* HEADER */}
+            <div className='flex p-4 bg-black text-white'>
+                <div className='basis-10'>ID</div>
+                <div className='px-2 grow'>Location</div>
+                <div className='px-2 basis-16'>Revenue</div>
+            </div>
+            {/* BODY */}
+            {items.map((item, index) => (
+                <div className='flex p-4 bg-white border-b border-gray-200'>
+                    <div className='basis-10 text-gray-400 text-left'>#{item.id}</div>
+                    <div className='px-2 grow'>{item.location}</div>
+                    <div className='px-2 basis-16 text-right'>{item.revenue.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 })}</div>
+
+                </div>
+            ))}
+        </div>
     )
 }
-const StatusItem = ({ children }) => {
+const StatusTable = ({ items }) => {
     return (
-        <li className='flex'><span className='grow'>{children}</span><span>Operational</span><Link href='/management/inventory/1' className='px-1 ml-2 underline'>View</Link></li>
+        <div className='flex flex-col'>
+            {/* HEADER */}
+            <div className='flex p-4 bg-black text-white'>
+                <div className='basis-10 '>ID</div>
+                <div className='basis-10 grow text-center '>Operation</div>
+                <div className='px-2 basis-1/3 '>Low In Stock</div>
+                <div className='px-2 basis-1/3'>Empty</div>
+            </div>
+            {/* BODY */}
+            {items.map((item, index) => (
+                <div className='flex p-4 bg-white border-b border-gray-20 '>
+                    <div className='basis-10 text-gray-400 text-left  '>#{item.id}</div>
+                    <div className='basis-10 grow text-center' style={{ color: item.operation ? 'green' : 'red' }}>{item.operation ? 'OK' : 'DOWN'}</div>
+                    <div className='px-2 basis-1/3 flex gap-[3px] items-center pl-2'>
+                        <span className='mr-2'>{item.low}</span>
+                        {new Array(item.low).fill(1).map((i, index) => (<div key={index} className='rounded min-w-[5px] aspect-[1/3] bg-blue-400'>
+                        </div>))}
+                    </div>
+                    <div className='px-2 basis-1/3 flex gap-[3px] items-center pl-2'>
+                        <span className='mr-2'>{item.empty}</span>
+                        {new Array(item.empty).fill(1).map((i, index) => (<div key={index} className='rounded min-w-[5px] aspect-[1/3] bg-red-400'>
+                        </div>))}
+                        <div className='px-2 basis-1/4 shrink flex justify-end grow'>
+                            <Link href={`/management/inventory/${item.id}`} className='underline'>View</Link>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+const RangeButton = ({ item, setRange, range }) => {
+    if (range == item.value) return (
+        <button onClick={() => setRange(item.value)} className='p-2 bg-black text-white'>
+            {item.name}
+        </button>
+    )
+    return (
+        <button onClick={() => setRange(item.value)} className='p-2 '>
+            {item.name}
+        </button>
     )
 }
 export default Page

@@ -8,10 +8,10 @@ const machine_dict = {
                 price: 3,
                 id: 1,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
 
                 }
             },
@@ -21,10 +21,10 @@ const machine_dict = {
                 price: 1.5,
                 id: 2,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -33,10 +33,10 @@ const machine_dict = {
                 price: 2.29,
                 id: 3,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -45,10 +45,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 4,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -57,10 +57,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 5,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -69,10 +69,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 6,
                 icon: "/icons/chips-3.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -81,10 +81,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 7,
                 icon: "/icons/energy-bar.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -93,10 +93,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 8,
                 icon: "/icons/energy-bar.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
             {
@@ -105,10 +105,10 @@ const machine_dict = {
                 price: 1.29,
                 id: 9,
                 icon: "/icons/energy-bar.png",
-                expirations:{
-                    "2023-01-01":3,
-                    "2023-02-02":3,
-                    "2024-03-03":4
+                expirations: {
+                    "2023-01-01": 3,
+                    "2023-02-02": 3,
+                    "2024-03-03": 4
                 }
             },
         ],
@@ -289,45 +289,74 @@ const machine_dict = {
     },
 };
 const summary = {
-    totalRevenue:12000,
-    totalSold:9000,
-    topItems:[{
-        name:"Doritos",
-        quantity:300
-    },{
-        name:"Ruffles",
-        quantity:245
-    },{
-        name:"Coca Cola",
-        quantity:220
-    },{
-        name:"Sneakers",
-        quantity:195
-    },{
-        name:"Water",
-        quantity:166
+    totalRevenue: 12400,
+    totalSold: 9350,
+    topItems: [{
+        name: "Doritos",
+        quantity: 300
+    }, {
+        name: "Ruffles",
+        quantity: 245
+    }, {
+        name: "Coca Cola",
+        quantity: 220
+    }, {
+        name: "Sneakers",
+        quantity: 195
+    }, {
+        name: "Water",
+        quantity: 166
     },],
-    topVm:[{
-        id:1,
-        revenue:1604,
-        location:"Los Angeles, CA"
-    },{
-        id:1,
-        revenue:1250,
-        location:"Tustin, CA"
-    },{
-        id:1,
-        revenue:980,
-        location:"Fullerton, CA"
-    },{
-        id:1,
-        revenue:882,
-        location:"Riverside, CA"
-    },{
-        id:1,
-        revenue:645,
-        location:"San Bernardino, CA"
-    },]
+    topVm: [{
+        id: 1,
+        revenue: 1604,
+        location: "Los Angeles, CA"
+    }, {
+        id: 2,
+        revenue: 1250,
+        location: "Tustin, CA"
+    }, {
+        id: 3,
+        revenue: 980,
+        location: "Fullerton, CA"
+    }, {
+        id: 4,
+        revenue: 882,
+        location: "Riverside, CA"
+    }, {
+        id: 5,
+        revenue: 645,
+        location: "San Bernardino, CA"
+    },],
+    status: [
+        {
+            id: 10,
+            low: 3,
+            empty: 0,
+            operation:false
+        },
+        {
+            id: 6,
+            low: 8,
+            empty: 5,
+            operation:true
+        }, {
+            id: 7,
+            low: 4,
+            empty: 4,
+            operation:true
+        }, {
+            id: 8,
+            low: 4,
+            empty: 4,
+            operation:true
+        }, {
+            id: 9,
+            low: 3,
+            empty: 2,
+            operation:true
+        }, 
+    ]
 }
-export {summary}
+export { summary }
 export default machine_dict

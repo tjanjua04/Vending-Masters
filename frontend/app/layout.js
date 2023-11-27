@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react'
-import { Inter } from "next/font/google";
+import { Inter,Roboto } from "next/font/google";
 import "./globals.css";
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets:['latin'], weight:['100','300','400','500','700','900'] });
 import { ReduxProvider } from '../states/provider'
 
 // export const metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={theme} >
 
-      <body className={inter.className}>
+      <body className={roboto.className}>
           <div className='text-black dark:text-white  dark:bg-black min-h-[100dvh] overflow-scroll '>
             <div className='fixed top-0'>
               <button onClick={() => changeTheme()} className='opacity-5'>__</button>

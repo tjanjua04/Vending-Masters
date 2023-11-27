@@ -4,9 +4,9 @@ from inventory import Inventory
 
 
 class InventoryController(ABC):
-    def __init__(self, inventory: Inventory):
-        self.inventory = inventory
+    def __init__(self, inventories: list[Inventory]):
+        self.inventories = inventories
 
-    def get_inventory(self) -> Inventory:
-        return self.inventory
+    def get_inventories(self) -> list[Inventory]:
+        return self.inventories
 
