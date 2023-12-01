@@ -2,7 +2,7 @@
 
 from flask import Flask, Response, request
 from helpers.error_handling import *
-from db.tabledef import app, ItemModel, InventoryModel, TransactionsListModel, TransactionModel, db_session, db
+from backend.db.tabledef import app, ItemModel, InventoryModel, TransactionsListModel, TransactionModel, db_session, db
 from helpers.load_database_data import load_inventories_from_db
 from backend.inventory import Inventory
 import json
@@ -15,7 +15,7 @@ def create_inventories():
     inventory1 = Inventory(10, 'LA')
     inventory2 = Inventory(10, 'SD')
     inventory3 = Inventory(10, 'SF')
-    ret = {inventory1, inventory2, inventory3}
+    ret = [inventory1, inventory2, inventory3]
     return ret
 
 

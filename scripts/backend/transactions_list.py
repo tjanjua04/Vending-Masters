@@ -1,6 +1,6 @@
 from helpers.error_handling import TransactionNotFoundException
 from backend.db.tabledef import db_session
-from transaction import Transaction
+from backend.transaction import Transaction
 from backend.db import tabledef
 from backend.db.tabledef import TransactionsListModel
 from helpers import load_database_data

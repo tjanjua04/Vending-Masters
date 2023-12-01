@@ -1,8 +1,8 @@
 from helpers.error_handling import InvalidPriceException
 from backend.db.tabledef import db_session
-from item import Item
-from db import tabledef
-from db.tabledef import ItemModel, TransactionModel
+from backend.item import Item
+from backend.db import tabledef
+from backend.db.tabledef import ItemModel, TransactionModel
 from flask import session
 
 
