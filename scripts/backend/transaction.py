@@ -7,7 +7,8 @@ from flask import session
 
 
 class Transaction:
-    def __init__(self, item_name: str, item_id: int, time: str, price: float, transactions_list_id: int, id=-1):
+    def __init__(self, item_name: str, item_id: int, time: str, price: float, transactions_list_id: int, method: str,
+                 id=-1):
         if price < 0:
             raise InvalidPriceException(price, item_name)
 
@@ -15,6 +16,7 @@ class Transaction:
         self.item_id = item_id
         self.time = time
         self.price = price
+        self.method = method
         self.transactions_list_id = transactions_list_id
 
         # new transaction row in db
@@ -22,7 +24,8 @@ class Transaction:
             with db_session() as s:
                 u = tabledef.TransactionModel(time=self.time,
                                               item_id=self.item_id,
-                                              transactions_list_id=transactions_list_id)
+                                              transactions_list_id=transactions_list_id,
+                                              method=method)
                 s.add(u)
                 s.commit()
 
@@ -31,7 +34,9 @@ class Transaction:
             self.id = id
 
     def transaction_to_json(self):
-        return {self.item_id, self.item_name, self.time, self.price}
+        return {'item_id': self.item_id, 'item_name': self.item_name,
+                'time': self.time, 'price': self.price, 'method': self.method,
+                'inventory_id': self.transactions_list_id}
 
     def get_price(self) -> float:
         return self.price
@@ -41,6 +46,3 @@ class Transaction:
 
     def get_transaction_id(self) -> int:
         return self.id
-
-
-

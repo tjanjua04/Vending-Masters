@@ -34,14 +34,12 @@ class TransactionsList:
                 s.add(u)
                 s.commit()
 
-        self.profit = 0
-
-    def create_transaction(self, item_name: str, item_id: int, time: str, price: float):
-        transaction = Transaction(item_name, item_id, time, price, self.id)
+    def create_transaction(self, item_name: str, item_id: int, time: str, price: float, method: str):
+        transaction = Transaction(item_name, item_id, time, price, self.id, method)
         self.transactions_dict[transaction.get_transaction_id()] = transaction
-        self.profit += price
         return transaction
 
+    @handle_invalid_transaction
     def get_latest_transaction(self) -> Transaction:
         latest_key = max(self.transactions_dict, key=self.transactions_dict.get)
         return self.transactions_dict[latest_key]
@@ -50,16 +48,11 @@ class TransactionsList:
     def get_transaction(self, transaction_id: int):
         return self.transactions_dict[transaction_id]
 
-    def get_profit(self):
-        return self.profit
-
     def get_transactions_list(self):
-        return self.transaction_dict
+        return self.transactions_dict
 
     def transactions_to_json(self):
-        json_dict = {}
-        for id, transaction in self.transaction_dict.items():
-            item = {'id': id, 'item': transaction.item_name,
-                    'time': transaction.time, 'price': transaction.price}
-            json_dict[id] = item
-        return json_dict
+        json = []
+        for transaction in self.transactions_dict.values():
+            json.append(transaction.transaction_to_json())
+        return json

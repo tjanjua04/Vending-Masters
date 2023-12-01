@@ -10,14 +10,15 @@ def handle_invalid_item(f):
         try:
             return f(*args, **kwargs)
         except KeyError:
-            raise ItemNotFoundException(args[0])
+            raise ItemNotFoundException(args[1])
     return decorator
 
 
 class Inventory:
     # do not put entry for id unless the id is a known inventory in the database
-    def __init__(self, capacity: int, items_dict: dict[int, Item] = None, id: int = -1):
+    def __init__(self, capacity: int, location: str, items_dict: dict[int, Item] = None, id: int = -1):
         self.capacity = capacity
+        self.location = location
 
         if items_dict is None:
             self.items_dict = dict[int, Item]()
@@ -27,7 +28,7 @@ class Inventory:
         # create new table entry
         if id == -1:
             with db_session() as s:
-                u = tabledef.InventoryModel(capacity=capacity)
+                u = tabledef.InventoryModel(capacity=capacity, location=location)
                 s.add(u)
                 s.commit()
                 self.id = u.inventory_id
@@ -46,8 +47,8 @@ class Inventory:
 
         return new_item
 
-    def create_transaction(self, item_name: str, item_id: int, time: str, price: float):
-        transaction = self.transactions_list.create_transaction(item_name, item_id, time, price)
+    def create_transaction(self, item_name: str, item_id: int, time: str, price: float, method: str):
+        transaction = self.transactions_list.create_transaction(item_name, item_id, time, price, method)
         return transaction
 
     @handle_invalid_item

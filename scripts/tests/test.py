@@ -5,18 +5,15 @@ from backend.inventory import Inventory
 from backend.item import Item
 
 
-inventory1 = Inventory(5)
-inventory2 = Inventory(5)
-inventory3 = Inventory(5)
-inventory4 = Inventory(5)
+inventory1 = Inventory(5, 'LA')
+inventory2 = Inventory(5, 'SD')
+inventory3 = Inventory(5, 'SF')
 
 
 inventory1.create_item("item1", 1, "exp", 1.00)
 inventory1.create_item("item2", 2, "exp", 2.00)
 inventory2.create_item("item3", 3, "exp", 3.00)
 inventory3.create_item("item4", 4, "exp", 4.00)
-inventory4.create_item("item5", 5, "exp", 5.00)
-
 
 inventories = load_inventories_from_db()
 
@@ -74,13 +71,33 @@ class TestVending(unittest.TestCase):
     def test_create_transaction(self):
         inventory_id = 3
         item_id = 4
+        method = 'cash'
 
         target_inventory = inventories[inventory_id - 1]
         item = target_inventory.get_item(item_id)
-        transaction = target_inventory.create_transaction(item.name, item.id, 'time', item.price)
+        transaction = target_inventory.create_transaction(item.name, item.id, 'time', item.price, method)
         json_transaction = transaction.transaction_to_json()
 
-        self.assertEqual({4, 'item4', 'time'}, json_transaction)
+        self.assertEqual({4, 'item4', 'time', 'cash'}, json_transaction)
+
+    def test_inventory_location(self):
+        inventory_id = 1
+        target_inventory = inventories[inventory_id - 1]
+
+        self.assertEqual(target_inventory.location, 'LA')
+
+    def test_get_all_transactions(self):
+        for inventory in inventories:
+            key = list(inventory.items_dict.keys())[0]
+            item = inventory.items_dict[key]
+            for i in range(50):
+                inventory.create_transaction(item.name, item.id, 'time', item.price, 'cash')
+
+        all_transactions = []
+        for inventory in inventories:
+            transactions_list = inventory.transactions_list.transactions_to_json()
+            all_transactions.extend(transactions_list)
+        print(all_transactions)
 
 
 if __name__ == '__main__':

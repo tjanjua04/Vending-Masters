@@ -20,7 +20,8 @@ def get_inventories(s, db_inventories):
     for db_inventory in db_inventories:
         items_dict = get_items_dict(s, db_inventory)
         # create new inventory objects and populate it with
-        inventory = Inventory(db_inventory.capacity, items_dict=items_dict, id=db_inventory.inventory_id)
+        inventory = Inventory(db_inventory.capacity, db_inventory.location,
+                              items_dict=items_dict, id=db_inventory.inventory_id)
         inventories.append(inventory)
     return inventories
 
@@ -44,11 +45,14 @@ def get_transactions_dict(s, db_transactions_list: TransactionsListModel):
         TransactionModel.transactions_list_id == db_transactions_list.transactions_list_id
     ).all()
 
+    id = db_transactions_list.transactions_list_id
+
     for db_transaction in db_transactions:
         db_item = s.query(ItemModel).filter(
             ItemModel.item_id == db_transaction.item_id
         ).first()
-        transaction = Transaction(db_item.name, db_item.item_id, db_transaction.time, db_item.price, -1)
+        transaction = Transaction(db_item.name, db_item.item_id, db_transaction.time, db_item.price, id,
+                                  db_transaction.method, -1)
         transactions_dict[transaction.id] = transaction
 
     return transactions_dict

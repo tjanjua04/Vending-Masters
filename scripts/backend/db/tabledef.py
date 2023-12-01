@@ -32,6 +32,7 @@ class InventoryModel(db.Model):
 
     inventory_id = db.Column(db.Integer, primary_key=True)
     capacity = db.Column("capacity", db.Integer)
+    location = db.Column("location", db.String)
     items = db.relationship("ItemModel", back_populates="inventory")
     transactions_list = db.relationship("TransactionsListModel", back_populates="inventory")
 
@@ -65,6 +66,7 @@ class TransactionModel(db.Model):
     transactions_list_id = db.Column(db.Integer, db.ForeignKey("transactions_list.transactions_list_id"))
     item_id = db.Column(db.Integer, db.ForeignKey("item.item_id"))
     time = db.Column("time", db.String)
+    method = db.Column("method", db.String)
 
 
 with app.app_context():
