@@ -25,7 +25,8 @@ class Transaction:
                 u = tabledef.TransactionModel(time=self.time,
                                               item_id=self.item_id,
                                               transactions_list_id=transactions_list_id,
-                                              method=method)
+                                              method=method,
+                                              item_name=self.item_name)
                 s.add(u)
                 s.commit()
 

@@ -59,7 +59,7 @@ const Page = () => {
                         <button
                             className='underline rounded-sm w-min p-2 place-self-end text-sm'
                             onClick={() => {
-                                setUsername('admin')
+                                setUsername('admin1')
                                 setPassword('admin')
                             }}
                         >

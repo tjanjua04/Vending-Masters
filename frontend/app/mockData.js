@@ -115,6 +115,7 @@ const machine_dict = {
         theme: {
             primary_color: "#444",
         },
+        location: "Los Angeles",
         properties: {
             location: "1234 Foo st., Anaheim",
             Status: "Operational",
@@ -187,6 +188,7 @@ const machine_dict = {
                 icon: "/icons/soda-1.png",
             },
         ],
+        location: "Fullerton, CA",
         theme: {
             primary_color: "#33c",
         },
@@ -333,30 +335,246 @@ const summary = {
             id: 10,
             low: 3,
             empty: 0,
-            operation:false
+            operation: false
         },
         {
             id: 6,
             low: 8,
             empty: 5,
-            operation:true
+            operation: true
         }, {
             id: 7,
             low: 4,
             empty: 4,
-            operation:true
+            operation: true
         }, {
             id: 8,
             low: 4,
             empty: 4,
-            operation:true
+            operation: true
         }, {
             id: 9,
             low: 3,
             empty: 2,
-            operation:true
-        }, 
+            operation: true
+        },
     ]
 }
-export { summary }
+const transactions = [
+    {
+        id: 1,
+        item_name: "Doritos",
+        item_id: 1,
+        time: "2023-11-27 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 1,
+        item_name: "Ruffles",
+        item_id: 3,
+        time: "2023-11-25 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 2,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-27 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+
+    {
+        id: 3,
+        item_name: "Ruffles",
+        item_id: 3,
+        time: "2023-11-27 15:30:45",
+        price: 1.25,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 4,
+        item_name: "Ruffles",
+        item_id: 4,
+        time: "2023-11-01 15:30:45",
+        price: 1.25,
+        inventory_id: 2,
+        method: 'cash'
+    },
+    {
+        id: 5,
+        item_name: "Ruffles",
+        item_id: 5,
+        time: "2023-11-01 15:30:45",
+        price: 1.25,
+        inventory_id: 2,
+        method: 'cash'
+    },
+    {
+        id: 6,
+        item_name: "Sneakers",
+        item_id: 6,
+        time: "2023-11-01 15:30:45",
+        price: 2.00,
+        inventory_id: 2,
+        method: 'cash'
+    },
+    {
+        id: 18,
+        item_name: "Sneakers",
+        item_id: 6,
+        time: "2023-11-03 15:30:45",
+        price: 2.00,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 7,
+        item_name: "Sneakers",
+        item_id: 7,
+        time: "2023-11-01 15:30:45",
+        price: 2.00,
+        inventory_id: 3,
+        method: 'cash'
+    },
+    {
+        id: 8,
+        item_name: "Water",
+        item_id: 2.00,
+        time: "2023-11-04 15:30:45",
+        price: 2,
+        inventory_id: 3,
+        method: 'cash'
+    },
+    {
+        id: 17,
+        item_name: "Pop-Tarts",
+        item_id: 1.50,
+        time: "2023-11-06 15:30:45",
+        price: 2,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 9,
+        item_name: "Water",
+        item_id: 9,
+        time: "2023-11-03 15:30:45",
+        price: 2.00,
+        inventory_id: 3,
+        method: 'card'
+    },
+    {
+        id: 10,
+        item_name: "Gatorade",
+        item_id: 10,
+        time: "2023-11-03 15:30:45",
+        price: 2.50,
+        inventory_id: 3,
+        method: 'cash'
+    },
+    {
+        id: 11,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-25 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'card'
+    },
+    {
+        id: 12,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-25 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 13,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-26 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 14,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-26 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 15,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-17 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'cash'
+    },
+    {
+        id: 16,
+        item_name: "Doritos",
+        item_id: 2,
+        time: "2023-11-18 15:30:45",
+        price: 1.50,
+        inventory_id: 2,
+        method: 'card'
+    },
+    {
+        id: 19,
+        item_name: "SunChips",
+        item_id: 12,
+        time: "2023-11-17 15:30:45",
+        price: 1.50,
+        inventory_id: 1,
+        method: 'card'
+    },
+];
+const restockers = [{
+    id: 1,
+    username: 'admin1',
+    password: 'admin',
+    name: 'John Doe 1',
+    lastAssigned: 1
+}, {
+    id: 2,
+    username: 'admin2',
+    password: 'admin',
+    name: 'John Doe 2',
+    lastAssigned: 3
+}, {
+    id: 3,
+    username: 'admin3',
+    password: 'admin',
+    name: 'John Doe 3',
+    lastAssigned: 2
+}, {
+    id: 4,
+    username: 'admin4',
+    password: 'admin',
+    name: 'John Doe 4',
+    lastAssigned: 2
+}]
+
+const inventoryDetail = {
+    1: { lastTransaction: '2023-11-29 11:20:11', lastRestock: '2023-11-29 11:20:11', lastRestocker: 'John Doe', operation: true },
+    2: { lastTransaction: '2023-11-28 12:20:11', lastRestock: '2023-11-26 11:20:11', lastRestocker: 'John Reeves', operation: true },
+    3: { lastTransaction: '2023-11-30 11:20:11', lastRestock: '2023-11-19 11:20:11', lastRestocker: 'John Apple', operation: true },
+
+}
+
+export { summary, transactions, restockers, inventoryDetail }
 export default machine_dict

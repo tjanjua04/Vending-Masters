@@ -16,9 +16,10 @@ def handle_invalid_item(f):
 
 class Inventory:
     # do not put entry for id unless the id is a known inventory in the database
-    def __init__(self, capacity: int, location: str, items_dict: dict[int, Item] = None, id: int = -1):
+    def __init__(self, capacity: int, location: str, items_dict: dict[int, Item] = None, id: int = -1, operation=True):
         self.capacity = capacity
         self.location = location
+        self.operation = operation
 
         if items_dict is None:
             self.items_dict = dict[int, Item]()
@@ -28,7 +29,7 @@ class Inventory:
         # create new table entry
         if id == -1:
             with db_session() as s:
-                u = tabledef.InventoryModel(capacity=capacity, location=location)
+                u = tabledef.InventoryModel(capacity=capacity, location=location, operation=operation)
                 s.add(u)
                 s.commit()
                 self.id = u.inventory_id
@@ -36,7 +37,6 @@ class Inventory:
             self.id = id
 
         self.transactions_list = TransactionsList(self.id)
-
     # mutators
     def create_item(self, name: str, capacity: int, exp_date: str, price: float):
         if len(self.items_dict.keys()) >= self.capacity:
@@ -70,6 +70,8 @@ class Inventory:
     @handle_invalid_item
     def set_item_quantity(self, item_id: int, quantity: int):
         item = self.items_dict[item_id]
+        print("QTY")
+        print(quantity)
         if item is not None:
             item.set_quantity(quantity)
         return item
@@ -83,7 +85,7 @@ class Inventory:
 
     # converts the inventory dictionary to json format
     def inventory_to_json(self):
-        inventory_json = {'items': []}
+        inventory_json = {'items': [],'id':self.id,'location':self.location,'operation':self.operation}
         for item in self.items_dict.values():
             item_json = item.item_to_json()
             inventory_json['items'].append(item_json)
@@ -111,6 +113,14 @@ class Inventory:
             if item.check_expired():
                 expired.append(item)
         return expired
+
+    def set_operation(self, operation):
+        with db_session() as s:
+            model = tabledef.InventoryModel
+            db_inventory = s.query(model).filter(model.inventory_id == self.id).first()
+            setattr(db_inventory, 'operation', operation)
+            s.commit()
+        self.operation = operation
 
 
 

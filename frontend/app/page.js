@@ -8,7 +8,7 @@ const navs = [{
   link: '/restocker/login'
 }, {
   name: 'Management',
-  link: '/management/login'
+  link: '/login/management'
 }]
 export default function Home() {
   return (

@@ -4,6 +4,8 @@ const initialState = {
     isAuth: false,
     id: "",
     username: "",
+    lastAssigned:0,
+    name:"",
     error: null
 
 }
@@ -20,7 +22,9 @@ export const auth = createSlice({
                 ...state,
                 isAuth: true,
                 username: action.payload.username,
-                userId: action.payload.id,
+                id: action.payload.id,
+                name:action.payload.name,
+                lastAssigned:action.payload.lastAssigned,
                 error: null
             }
         },

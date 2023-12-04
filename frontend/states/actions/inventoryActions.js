@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setIds, setFocusedInventory, setFocusedItem as setItem, setTransaction,resetTransactionState } from "../features/inventorySlice";
-import machine_dict from "@/app/mockData";
+import { PORT } from "../env";
 
 export const fetchInventory = (payload) => async (dispatch) => {
     try {
@@ -10,10 +10,11 @@ export const fetchInventory = (payload) => async (dispatch) => {
              },
         };
         const { data } = await axios.get(
-             `http://127.0.0.1:5000/inventory/${payload}`,
+             `http://127.0.0.1:${PORT}/inventory/${payload}`,
         )
         console.log(`FETCHED INVENTORY #${payload}:`);
-        //const data = machine_dict[payload]
+        // const x = machine_dict[payload]
+        // console.log(x)
         console.log(data)
         dispatch(setFocusedInventory(data))
     } catch (error) {
@@ -24,9 +25,8 @@ export const fetchInventoryIds = () => async (dispatch) => {
     try {
         console.log("FETCHED INVENTORY IDS:");
         const { data } = await axios.get(
-             `http://127.0.0.1:5000/inventory/`,
+             `http://127.0.0.1:${PORT}/inventory/`,
         )
-        //const data = Object.keys(machine_dict)
         console.log(data)
         dispatch(setIds(data))
     } catch (err) {

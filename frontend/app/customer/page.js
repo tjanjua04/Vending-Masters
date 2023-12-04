@@ -10,11 +10,13 @@ import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi"
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInventory, fetchInventoryIds, initiateTransaction, resetTransaction, setFocusedItem } from "@/states/actions/inventoryActions";
+import axios from 'axios'
+import { PORT } from "@/states/env";
 
 const Page = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState({});
+  const [receipt, setReceipt] = useState({});
   const [windowOpen, setWindowOpen] = useState(false);
   const [basis, setBasis] = useState(2);
   const router = useRouter()
@@ -24,10 +26,79 @@ const Page = () => {
   const handleChangeMachine = (id) => {
     dispatch(fetchInventory(id))
   };
-  const handleSelect = (key) => {
-    dispatch(setFocusedItem(focusedInventory.items[key]))
+  const handleSelect = async (key) => {
+    dispatch(setFocusedItem(focusedInventory.items[key])
+    )
+    // DIVIDER
+    // const config = {
+    //   header: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    // const { data } = await axios.post(
+    //   'http://127.0.0.1:5007/restocker/login',
+    //   {
+    //     username: 'michael',
+    //     password: '1234512312'
+    //   },
+    // DIVIDER 
+    // const { data } = await axios.put(
+    //   'http://127.0.0.1:5007/inventory/1',
+    //   {
+    //     item_id: 1,
+    //     quantity: 2,
+    //     method: 'subtract'
+    //   },
+    // DIVIDER
+    // PUT INVENTORY
+    // const { data } = await axios.put(
+    //   'http://127.0.0.1:5006/inventory/1',
+    //   {
+    //     target_item_id :1,
+    //     quantity : 5
+    //   },
+    // console.log(data)
     setWindowOpen(true);
   };
+  const handlePurchase = async (item) => {
+    console.log("PURCHASING")
+    console.log(item)
+
+    let today = new Date()
+    let trans = {
+      item_id: item.id,
+      item_name: item.name,
+      price: item.price,
+      time: formatDate(today),
+      inventory_id: focusedInventory.id,
+      method: item.method
+    }
+    console.log(trans)
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      'http://127.0.0.1:500/transaction',
+      trans,
+    )
+    console.log("RECEIPT")
+    setReceipt(trans)
+    if (true) {
+      const { data } = await axios.put(
+        `http://127.0.0.1:${PORT}/inventory/${trans.inventory_id}`,
+        {
+          quantity: item.quantity - 1,
+          item_id: item.id
+        },
+      )
+      setWindowOpen(false)
+      handleChangeMachine(trans.inventory_id)
+      console.log(data)
+    }
+
+  }
   useEffect(() => {
     dispatch(fetchInventoryIds())
   }, [])
@@ -48,11 +119,24 @@ const Page = () => {
     // exitBeforeEnter: true,
   });
   return (
-    <div className="">
+    <div className="w-full">
       <OrderWindow
         open={windowOpen}
         setWindowOpen={setWindowOpen}
+        handlePurchase={handlePurchase}
       />
+      {receipt.time && <div className="fixed bottom-2 right-2 p-2 flex flex-col gap-2 border-[1px] border-gray-500">
+        <h1 className="text-xl border-b border-gray-300 pb-1">RECEIPT</h1>
+      <span className="font-semibold">Item name</span>
+        <span>{receipt.item_id}</span>
+        <span className="font-semibold">Inventory Id</span>
+        <span>{receipt.inventory_id}</span>
+        <span className="font-semibold">Method</span>
+        <span>{receipt.method}</span>
+        <span className="font-semibold">Time</span>
+        <span>{receipt.time}</span>
+      </div>}
+      {/* HEADER DIVIDER */}
       <div className="py-6 mb-4 bg-blacks-1 text-white flex items-center">
         <button onClick={() => router.back()}>
           <RiArrowLeftLine className="text-2xl mx-3" />
@@ -61,6 +145,7 @@ const Page = () => {
           Transaction Simulator
         </h1>
       </div>
+      {/* INVENTORY IDS DIVIDER */}
       <div className="text-center text-xl flex max-w-full md:max-w-[50vw] mx-auto items-center mb-2">
         {ids &&
           ids.map((id, index) => (
@@ -81,10 +166,10 @@ const Page = () => {
           </button>
         </div>
       </div>
-
-      <div className=" max-w-full md:max-w-[50vw] mx-auto relative">
+      {/* ITEMS GRID DIVIDER */}
+      <div className="w-full max-w-full border-2 md:max-w-[50vw] mx-auto relative">
         {transitions((style, i) => (
-          <animated.div style={style} className="flex flex-wrap absolute">
+          <animated.div style={style} className="flex flex-wrap absolute w-full">
             {i &&
               i.items.map((item, index) => (
                 <Item
@@ -106,24 +191,21 @@ const Page = () => {
 const Item = ({ basis, item, handleSelect, index }) => {
   return (
     <div
-      className="p-2 shrink-0 grow"
+      className="p-2 shrink grow basis-1/3 max-w-[1/3]"
       style={{
-        flexBasis: `${(1 / (basis + 1)) * 100}%`,
-        maxWidth: `${100 / (basis + 1)}%`,
+        // flexBasis: `${(1 / (basis + 1)) * 100}%`,
+        // maxWidth: `${100 / (basis + 1)}%`,
       }}
     >
       <button
-        className="w-full bg-gray-200 dark:bg-gray-800 hover:bg-blacks-1 hover:text-white duration-500 border-2 rounded-sm p-2 flex flex-col items-center shrink-0   "
-        // style={{
-        //   borderColor: `${item.id == focusedItem.id ? "#aa5555" : "#333333"}`,
-        // }}
+        className="w-full bg-gray-200 dark:bg-gray-800 hover:bg-blacks-1 hover:text-white duration-500 rounded-sm p-2 flex flex-col items-center shrink-0   "
         onClick={(e) => handleSelect(index)}
       >
         <div className="shrink-0">
           <Image
             alt="icon"
-            // src="/icons/chips-1.png"
-            src={item.icon}
+            src="/icons/chips-1.png"
+            // src={item.icon}
             width={70}
             height={70}
             className="ico z-0"
@@ -142,8 +224,9 @@ const Item = ({ basis, item, handleSelect, index }) => {
 };
 
 // DIVIDER ORDER WINDOW: display item selected
-const OrderWindow = ({ setWindowOpen, open }) => {
+const OrderWindow = ({ setWindowOpen, open, handlePurchase }) => {
   const { focusedItem } = useSelector(state => state.inventory)
+  const dispatch = useDispatch()
   const divStyle = {
     display: open ? "flex" : "none",
   };
@@ -179,8 +262,8 @@ const OrderWindow = ({ setWindowOpen, open }) => {
               <div className="">
                 <Image
                   alt="icon"
-                  // src="/icons/chips-1.png"
-                  src={focusedItem.icon}
+                  src="/icons/chips-1.png"
+                  // src={focusedItem.icon}
                   width={70}
                   height={70}
                   className="ico z-0"
@@ -190,7 +273,7 @@ const OrderWindow = ({ setWindowOpen, open }) => {
                 <span className="text-lg font-bold">{focusedItem.name}</span>
               </div>
               <div className="text-left">
-                <span className="text-md">Stock: {focusedItem.stock}</span>
+                <span className="text-md">Stock: {focusedItem.quantity}</span>
               </div>
               <span className="text-md">${Number(focusedItem.price).toFixed(2)}</span>
             </div>
@@ -202,6 +285,7 @@ const OrderWindow = ({ setWindowOpen, open }) => {
             <span className="top-0 -translate-y-full text-white text-lg left-0 absolute font-semibold hidden md:block">Payment Method</span>
             <div className=" w-full aspect-video flex justify-center items-stretch">
               <PayWindow
+                handlePurchase={handlePurchase}
                 open={open}
               />
             </div>
@@ -226,7 +310,7 @@ const OrderWindow = ({ setWindowOpen, open }) => {
 };
 
 // DIVIDER PAY WINDOW: display payment options
-const PayWindow = ({ open }) => {
+const PayWindow = ({ open, handlePurchase }) => {
   const [payMethod, setPayMethod] = useState('cash')
   const [receiptOpen, setReceiptOpen] = useState(false);
   const [statusIdx, setStatusIdx] = useState(0);
@@ -240,27 +324,7 @@ const PayWindow = ({ open }) => {
     backgroundColor: payMethod != "cash" ? "#222" : "transparent",
     color: payMethod != "cash" ? "white" : "inherit",
   };
-  // const states = [
-  //   ({ style }) => (
-  //     <animated.div style={style}>{"PROCESSING ORDER"}</animated.div>
-  //   ),
-  //   ({ style }) => <animated.div style={style}>VENDING</animated.div>,
-  //   ({ style, name }) => (
-  //     <animated.div style={style}>DISPENSING {name.toUpperCase()}</animated.div>
-  //   ),
-  //   ({ style }) => (
-  //     <animated.div style={style}>{"TRANSACTION COMPLETE"}</animated.div>
-  //   ),
-  //   ({ style }) => (
-  //     <animated.div style={style}>AUTHENTICATING CARD</animated.div>
-  //   ),
-  //   ({ style }) => <animated.div style={style}>CARD APPROVED</animated.div>,
-  //   ({ style, change }) => (
-  //     <animated.div style={style}>
-  //       DISPENSING CHANGE (${(Math.round(change * 10) / 10).toFixed(2)})
-  //     </animated.div>
-  //   ),
-  // ];
+
   const transitions = useTransition(statusIdx, {
     keys: null,
     from: { opacity: 0, transform: "translate3d(0,10%,0)" },
@@ -272,28 +336,17 @@ const PayWindow = ({ open }) => {
     exitBeforeEnter: true,
   });
   const processOrder = (itemBought, method) => {
-    const order = {
-      status: 'selecting',
-      complete: false,
-      inventoryId: focusedInventory.id,
-      itemId: focusedItem.id,
-      itemName: focusedItem.name,
-      price: focusedItem.price,
-      method: method
-    }
-    dispatch(initiateTransaction(order))
-    // setTransaction({
-    //   item: itemBought,
-    //   payMethod: method,
-    // });
-    // console.log(new Date())
-    // let x = new Date()
-    // setReceipt({
-    //   item: { ...item },
-    //   machineId: 1,
-    //   payMethod: payMethod,
-    //   date: x.toLocaleString()
-    // });
+    // const order = {
+    //   status: 'selecting',
+    //   complete: false,
+    //   inventoryId: focusedInventory.id,
+    //   itemId: focusedItem.id,
+    //   itemName: focusedItem.name,
+    //   price: focusedItem.price,
+    //   method: method
+    // }
+    handlePurchase({ ...itemBought, method })
+
   };
 
   useEffect(() => {
@@ -425,11 +478,13 @@ const PayWindow = ({ open }) => {
 const PaymentSelector = ({ method, item, processOrder }) => {
   const [fund, setFund] = useState(0);
   const [loadingCash, setLoadingCash] = useState(false);
+
   const handleCashInsert = (val) => {
     setLoadingCash(true);
     setTimeout(() => setLoadingCash(false), 2000);
     setTimeout(() => {
       if (fund + val >= item.price) {
+        setFund(0)
         processOrder({ ...item, fund: fund + val }, "cash");
       }
     }, 2000);
@@ -437,9 +492,11 @@ const PaymentSelector = ({ method, item, processOrder }) => {
       setFund((x) => x + val);
     }, 800);
   };
+
   const handleCardUse = () => {
     processOrder(item, "card");
   };
+
   // DIVIDER CASH METHOD
   if (method == "cash")
     return (
@@ -518,3 +575,14 @@ const PaymentSelector = ({ method, item, processOrder }) => {
     );
 };
 export default Page;
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

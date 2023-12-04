@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import machine_dict from "@/app/mockData";
 const initialState = {
-    ids: null,
+    ids: [],
     focusedInventory: null,
     focusedItem: null,
     error: null,

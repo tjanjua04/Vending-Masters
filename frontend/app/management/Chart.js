@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line, ComposedChart, BarChart, Bar } from 'recharts';
 
 
@@ -175,26 +176,28 @@ const rangeData = [
     }
 ]
 const Chart = ({ range }) => {
-    const [data, setData] = useState(rangeData.slice(-31))
-    useEffect(() => {
-        setData(rangeData.slice(-1 * range))
-    }, [range])
+    // const [data, setData] = useState(rangeData.slice(-31))
+    // useEffect(() => {
+    //     setData(rangeData.slice(-1 * range))
+    // }, [range])
+    const {dailyRevenue} = useSelector(state=>state.analytics)
+
     return (
         <ResponsiveContainer width="100%" height="100%" >
-            <BarChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
+            <BarChart data={dailyRevenue} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
 
 
                 <defs>
                     <linearGradient id={'revenue'} x1="0" y1="0" x2="0" y2="1" >
-                        <stop offset="5%" stopColor={'#54A2F0'} stopOpacity={1} />
+                        <stop offset="5%" stopColor={'#27dd6a'} stopOpacity={1} />
                         <stop offset="60%" stopColor={'#000000'}  stopOpacity={.1} />
                     </linearGradient>
                 </defs>
                 <Tooltip />
-                <XAxis tickCount={2} interval={5} dataKey='day'/>
+                <XAxis tickCount={2} interval={5} dataKey='date'/>
                 <YAxis />
                 <CartesianGrid strokeDasharray="3 3" />
-                <Bar dataKey="revenue" fill="#54A2F0" />
+                <Bar dataKey="revenue" fill="#27dd6a" radius={[5,5,2,2]} />
             </BarChart>
         </ResponsiveContainer>
     )

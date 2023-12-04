@@ -1,313 +1,71 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-const machine_dict = {
-    1: {
-        id: 1,
-        items: [
-            {
-                name: "Doritos",
-                stock: 8,
-                price: 3,
-                id: 1,
-                icon: "/icons/chips-1.png",
-            },
-            {
-                name: "Ruffles",
-                stock: 0,
-                price: 1.5,
-                id: 2,
-                icon: "/icons/chips-2.png",
-            },
-            {
-                name: "Sneakers",
-                stock: 3,
-                price: 2.29,
-                id: 3,
-                icon: "/icons/chips-3.png",
-            },
-            {
-                name: "Pop-Tarts",
-                stock: 9,
-                price: 1.29,
-                id: 4,
-                icon: "/icons/chips-3.png",
-            },
-            {
-                name: "SunChips",
-                stock: 5,
-                price: 1.29,
-                id: 5,
-                icon: "/icons/chips-3.png",
-            },
-            {
-                name: "Granola Bars",
-                stock: 2,
-                price: 1.29,
-                id: 6,
-                icon: "/icons/chips-3.png",
-            },
-            {
-                name: "Cookies",
-                stock: 2,
-                price: 1.29,
-                id: 7,
-                icon: "/icons/energy-bar.png",
-            },
-            {
-                name: "Cheetos",
-                stock: 10,
-                price: 1.29,
-                id: 8,
-                icon: "/icons/energy-bar.png",
-            },
-            {
-                name: "Ruffles",
-                stock: 8,
-                price: 1.29,
-                id: 9,
-                icon: "/icons/energy-bar.png",
-            },
-        ],
-        theme: {
-            primary_color: "#444",
-        },
-        properties: {
-            location: "1234 Foo st., Anaheim",
-            Status: "Operational",
-        },
-    },
-    2: {
-        id: 2,
-        items: [
-            {
-                name: "Gatorade",
-                stock: 8,
-                price: 3,
-                id: 10,
-                icon: "/icons/energy-drink.png",
-            },
-            {
-                name: "Iced Tea",
-                stock: 3,
-                price: 2,
-                id: 11,
-                icon: "/icons/energy-drink.png",
-            },
-            {
-                name: "Monster",
-                stock: 7,
-                price: 1.29,
-                id: 12,
-                icon: "/icons/energy-drink.png",
-            },
-            {
-                name: "Water",
-                stock: 10,
-                price: 1.29,
-                id: 13,
-                icon: "/icons/soda-1.png",
-            },
-            {
-                name: "Sprite",
-                stock: 10,
-                price: 1.5,
-                id: 14,
-                icon: "/icons/soda-1.png",
-            },
-            {
-                name: "Lemonade",
-                stock: 10,
-                price: 1.29,
-                id: 15,
-                icon: "/icons/soda-1.png",
-            },
-            {
-                name: "Lemonade",
-                stock: 10,
-                price: 1.29,
-                id: 15,
-                icon: "/icons/soda-1.png",
-            },
-            {
-                name: "Lemonade",
-                stock: 10,
-                price: 1.29,
-                id: 15,
-                icon: "/icons/soda-1.png",
-            },
-            {
-                name: "Lemonade",
-                stock: 10,
-                price: 1.29,
-                id: 15,
-                icon: "/icons/soda-1.png",
-            },
-        ],
-        theme: {
-            primary_color: "#33c",
-        },
-    },
-    3: {
-        id: 3,
-        items: [
-            {
-                name: "Chips Ahoy",
-                stock: 2,
-                price: 2.49,
-                id: 13,
-                icon: "/icons/cookies.png",
-            },
-            {
-                name: "Pepsi",
-                stock: 15,
-                price: 1.99,
-                id: 14,
-                icon: "/icons/soda.png",
-            },
-            {
-                name: "Oatmeal",
-                stock: 4,
-                price: 3.49,
-                id: 15,
-                icon: "/icons/oatmeal.png",
-            },
-            {
-                name: "Yogurt",
-                stock: 10,
-                price: 1.79,
-                id: 16,
-                icon: "/icons/yogurt.png",
-            },
-            {
-                name: "Oranges",
-                stock: 0,
-                price: 0.79,
-                id: 17,
-                icon: "/icons/fruit.png",
-            },
-            {
-                name: "Cereal",
-                stock: 0,
-                price: 2.99,
-                id: 18,
-                icon: "/icons/cereal.png",
-            },
-            {
-                name: "Bottled Water",
-                stock: 18,
-                price: 0.99,
-                id: 19,
-                icon: "/icons/water.png",
-            },
-            {
-                name: "Frozen Pizza",
-                stock: 3,
-                price: 4.99,
-                id: 20,
-                icon: "/icons/pizza.png",
-            },
-            {
-                name: "Ice Cream",
-                stock: 8,
-                price: 3.49,
-                id: 21,
-                icon: "/icons/ice-cream.png",
-            },
-            {
-                name: "Cucumbers",
-                stock: 10,
-                price: 0.99,
-                id: 22,
-                icon: "/icons/vegetables.png",
-            },
-            {
-                name: "Soda",
-                stock: 12,
-                price: 1.49,
-                id: 23,
-                icon: "/icons/soda.png",
-            },
-            {
-                name: "Eggs",
-                stock: 14,
-                price: 2.29,
-                id: 24,
-                icon: "/icons/eggs.png",
-            },
-        ],
-        theme: {
-            primary_color: "#666",
-        },
-        properties: {
-            location: "5678 Bar St., Springfield",
-            Status: "Operational",
-        },
-    },
-};
+import { fetchInventoryIds } from "@/states/actions/inventoryActions";
+import { setActiveInstruction } from "@/states/features/instructionsSlice";
+
 const Page = () => {
     const [machineIds, setMachineIds] = useState([]);
     const [instructionOpen, setInstructionOpen] = useState(false);
     const [Instruction, setInstruction] = useState();
     const user = useSelector(state => state.user)
+    const { ids } = useSelector(state => state.inventory)
+    const { activeInstruction } = useSelector(state => state.instructions)
+    const dispatch = useDispatch()
     const router = useRouter()
-    const fetchIds = async () => {
-        try {
-            setMachineIds(Object.keys(machine_dict));
-            return;
-            const data = await fetch("http://localhost:5001/machine").then((res) =>
-                res.json()
-            );
-            setMachineIds(data);
-        } catch (err) {
-            console.log(err.message);
-        }
-    };
+
+    const fetches = () => {
+        dispatch(fetchInventoryIds());
+        console.log("FETCHING INSTRUCTION FOR")
+        console.log(user.username)
+        if (user.username) dispatch(setActiveInstruction(user.username))
+
+    }
     useEffect(() => {
-        fetchIds();
+        fetches()
     }, []);
     useEffect(() => {
-        if (!user.isAuth) router.push('/restocker/login')
-    }, [user])
+        console.log(activeInstruction)
+    }, [activeInstruction])
     if (instructionOpen) {
-        return( 
-        <>
-            <InstructionPage setInstructionOpen={setInstructionOpen}/>
-        </>)
+        return (
+            <>
+                <InstructionPage setInstructionOpen={setInstructionOpen} />
+            </>)
     }
     return (
 
 
         <div className="flex flex-col justify-start mx-auto max-w-7xl p-6 w-full">
-            <button
-                className="p-4 text-xl border-[1px] border-black w-auto md:w-[30%]"
-                onClick={() => setInstructionOpen(true)}
+            <div className="p-2 flex flex-col gap-2">
+                <h1 className="text-3xl font-semibold">Instruction</h1>
+                <span className="p-2 border-b border-gray-400 my-4 text-lg">Note from management</span>
+                <p className="px-4 py-2">{activeInstruction.note}</p>
+                <span className="p-2 border-b border-gray-400 my-4 text-lg">Items that need restocking</span>
+                
+            </div>
+            
+            <Link
+                href={`/restocker/${activeInstruction.inventory_id}`}
+                className="p-4 text-xl border-[1px] border-black w-auto md:w-[30%] mb-28"
+                // onClick={() => setInstructionOpen(true)}
             >
-                View Your Instruction
-            </button>
-            <h1 className="text-2xl my-4">All Inventory</h1>
+                VIEW ASSIGNED INVENTORY <span className="opacity-80">(#{activeInstruction.inventory_id})</span>
+            </Link>
+
+            <h1 className="text-2xl my-4">All Inventory (DEMO)</h1>
             <div className="flex flex-col w-full ">
-                {machineIds.map((value, index) => (
+                {ids.map((value, index) => (
                     <div key={index} className="p-2 w-full ">
                         <Link
                             href={`/restocker/${value}`}
                             className="block hover:bg-blue-300 p-3 rounded-sm border-black border-[1px] bg-gray-200 "
                         >
                             <span className="text-xl font-semibold">
-                                Machine 0{value}
+                                Machine {value}
                             </span>
-                            {/* 
-                                <span className="pl-4 text-red-600 font-semibold">
-                                    Empty slots: 3
-                                </span>
-                                <span className="pl-4 text-orange-400 font-semibold">
-                                    Low in stock slots: 3
-                                </span>
-                                <span className="pl-4 text-blue-500 font-semibold">
-                                    Expired Items: {value + 2}
-                                </span> */}
                         </Link>
                     </div>
                 ))}
@@ -318,8 +76,8 @@ const Page = () => {
 
 export default Page;
 
-
-const InstructionPage = ({setInstructionOpen}) => {
+// TODO
+const InstructionPage = ({ setInstructionOpen }) => {
     return (
         <div className="flex flex-col justify-start mx-auto max-w-7xl p-6 w-full">
 
@@ -332,14 +90,14 @@ const InstructionPage = ({setInstructionOpen}) => {
             <div>
                 <h1 className="text-xl mb-2">Assigned Inventory To Restock</h1>
                 <div className="p-2 w-full bg-blue-300">
-                        <Link
-                            href={`/restocker/1}`}
-                            className="block hover:bg-blue-300 p-3 rounded-sm border-black border-[1px] bg-gray-200 "
-                        >
-                            <span className="text-xl font-semibold">
-                                Machine 0{1}
-                            </span>
-                            {/* 
+                    <Link
+                        href={`/restocker/1}`}
+                        className="block hover:bg-blue-300 p-3 rounded-sm border-black border-[1px] bg-gray-200 "
+                    >
+                        <span className="text-xl font-semibold">
+                            Machine 0{1}
+                        </span>
+                        {/* 
                                 <span className="pl-4 text-red-600 font-semibold">
                                     Empty slots: 3
                                 </span>
@@ -349,8 +107,8 @@ const InstructionPage = ({setInstructionOpen}) => {
                                 <span className="pl-4 text-blue-500 font-semibold">
                                     Expired Items: {value + 2}
                                 </span> */}
-                        </Link>
-                    </div>
+                    </Link>
+                </div>
             </div>
         </div>
     )

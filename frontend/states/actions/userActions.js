@@ -1,7 +1,9 @@
 import axios from "axios";
 import { loginError, loginSuccess, logout as removeAuth } from "../features/userSlice";
+import { PORT } from "../env";
 
 export const login = (payload) => async (dispatch) => {
+    console.log(("FROM ACTIONS"));
     let { username, password } = payload
     try {
         const config = {
@@ -10,22 +12,24 @@ export const login = (payload) => async (dispatch) => {
             },
         };
         const { data } = await axios.post(
-            'http://127.0.0.1:5003/restocker/login',
+            `http://127.0.0.1:${PORT}/restocker/login`,
             { username, password },
             config
         )
-        const { user_id, isAuth } = data
-        dispatch(loginSuccess({
-            username,
-            id: user_id || 1,
+        console.log(("USER DATA FROM ACTIONS"));
+        console.log(data)
+        dispatch(loginSuccess(data))
+        
 
-        }))
     } catch (error) {
         // dispatch(loginError(error))
         if (username === 'admin' && password === 'admin') {
             dispatch(loginSuccess({
                 username: "Offline",
-                id: "999"
+                id: "999",
+                lastAssigned:0,
+                name:"Offline user",
+
             }))
         }
         else dispatch(loginError(error))
